@@ -1,0 +1,89 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files #
+################
+*.sublime-project
+*.sublime-workspace
+*.vscode
+
+# Compiled output #
+###################
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Node #
+#########
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular #
+###########
+.angular/
+
+# Sass #
+########
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+# Environment #
+##############
+.env
+.env.*
+
+# Virtual Environment #
+######################
+rag5env/
+**/__pycache__/
+
+# Miscellaneous #
+################
+.angular/
+.sass-cache/
+.tmp/
+.versions/
+coverage/
+dist/
+node_modules/
+package-lock.json
+tmp/
+
+__pycache__/

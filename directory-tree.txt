@@ -1,0 +1,11 @@
+.
+├── Dockerfile
+├── app
+│   ├── __init__.py
+│   └── main.py
+├── directory-tree.txt
+├── docker-compose.yaml
+├── langchain-test.py
+└── requirements.txt
+
+2 directories, 7 files
