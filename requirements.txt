@@ -1,3 +1,4 @@
 langchain
 fastapi
 sqlalchemy
+uuid

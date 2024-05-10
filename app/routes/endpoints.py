@@ -4,21 +4,10 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 # from sqlalchemy import create_engine
 from models.models_file import User, Base, engine, get_db
+from uuid import UUID
 
-# Create the database engine
-# engine = create_engine('sqlite:////database/app.db')
-
-# Create the database tables (if they don't exist)
-# Base.metadata.create_all(bind=engine)
 
 router = APIRouter()
-
-# def get_db():
-#     db = Session(engine)
-#     try:
-#         yield db
-#     finally:
-#         db.close()
 
 @router.get("/users")
 def get_users(db: Session = Depends(get_db)):
@@ -37,14 +26,14 @@ def get_users(db: Session = Depends(get_db)):
     ]
 
 @router.get("/users/{user_id}")
-def get_user(user_id: int, db: Session = Depends(get_db)):
+def get_user(user_id: UUID, db: Session = Depends(get_db)):
     """
     Retrieve a single user from the database by ID.
     """
-    user = db.query(User).get(user_id)
+    user = db.query(User).filter(User.id == user_id).first()
     if user:
         return {
-            "id": user.id,
+            "id": str(user.id),
             "email": user.email,
             "password": user.password,
             "notes": user.notes,
