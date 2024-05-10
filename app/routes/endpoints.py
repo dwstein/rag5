@@ -2,8 +2,8 @@
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
-from models.models_file import User, Base, engine
+# from sqlalchemy import create_engine
+from models.models_file import User, Base, engine, get_db
 
 # Create the database engine
 # engine = create_engine('sqlite:////database/app.db')
@@ -13,12 +13,12 @@ from models.models_file import User, Base, engine
 
 router = APIRouter()
 
-def get_db():
-    db = Session(engine)
-    try:
-        yield db
-    finally:
-        db.close()
+# def get_db():
+#     db = Session(engine)
+#     try:
+#         yield db
+#     finally:
+#         db.close()
 
 @router.get("/users")
 def get_users(db: Session = Depends(get_db)):
