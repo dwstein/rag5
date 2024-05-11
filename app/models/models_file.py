@@ -10,6 +10,8 @@ from datetime import datetime
 
 # Create the database engine
 engine = sqlalchemy.create_engine('sqlite:////database/app.db')
+print("This is the database url: " + str(engine.url))
+
 
 # Create the declarative base
 Base = declarative_base()

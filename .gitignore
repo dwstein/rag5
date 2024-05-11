@@ -92,3 +92,8 @@ package-lock.json
 tmp/
 
 __pycache__/
+
+.pytest_cache/
+
+
+.vscode/
