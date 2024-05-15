@@ -38,7 +38,7 @@ app = create_app()
 @app.get("/")
 def read_root():
     logger.info("Received request for root endpoint")
-    return {"Hello": "World from app/main.py on port 9000! Adjusted! With a database!"}
+    return {"Hello": "World from app/main.py on port 9000 wiht FastAPI"}
 
 if __name__ == "__main__":
     logger.info("Starting the FastAPI application")
