@@ -1,5 +1,9 @@
+# app/models/schemas.py
+
 import uuid
 
+from pydantic import BaseModel
+from uuid import UUID
 from fastapi_users import schemas
 
 
@@ -13,3 +17,11 @@ class UserCreate(schemas.BaseUserCreate):
 
 class UserUpdate(schemas.BaseUserUpdate):
     pass
+
+
+class UserResponseModel(BaseModel):
+    id: UUID
+    email: str
+
+    class Config:
+        orm_mode = True

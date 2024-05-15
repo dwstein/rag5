@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from models.users import auth_backend, fastapi_users
 from models.db import create_db_and_tables
 from models.schemas import UserRead, UserCreate, UserUpdate
+from routes.admin_endpoints import router
 from contextlib import asynccontextmanager
 
 # Create a logger instance
@@ -27,6 +28,9 @@ def create_app() -> FastAPI:
     app.include_router(fastapi_users.get_reset_password_router(), prefix="/auth", tags=["auth"])
     app.include_router(fastapi_users.get_verify_router(UserRead), prefix="/auth", tags=["auth"])
     app.include_router(fastapi_users.get_users_router(UserRead, UserUpdate), prefix="/users", tags=["users"])
+
+    # dev admin
+    app.include_router(router, prefix="/admin", tags=["admin"])
     return app
 
 app = create_app()

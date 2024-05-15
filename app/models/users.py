@@ -1,5 +1,10 @@
+# app/models/users.py
+
+
 import uuid
 from typing import Optional
+import os
+import dotenv
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
@@ -12,7 +17,11 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 
 from models.db import User, get_user_db
 
-SECRET = "SECRET"
+dotenv.load_dotenv()
+
+
+SECRET = os.getenv("SECRET_KEY")
+print(f"SECRET is {SECRET}")
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -33,6 +42,9 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         print(f"Verification requested for user {user.id}. Verification token: {token}")
 
 
+# provides a dependency that creates and yields an instance of UserManager, 
+# configured with the user database interface. This manager handles the creation, 
+# updating, and verification of user accounts.
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
     yield UserManager(user_db)
 
@@ -52,4 +64,7 @@ auth_backend = AuthenticationBackend(
 
 fastapi_users = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 
+
+# dependency is defined to be used in route functions to ensure 
+# that only authenticated and active users can access certain API endpoints.
 current_active_user = fastapi_users.current_user(active=True)
