@@ -11,6 +11,11 @@ This is a project for me to learn serveral thing at once
 
 Feel free to jump in with suggestions and/or observations.  I'm learning as I go.
 
+### FastAPI-Users
+- https://fastapi-users.github.io/fastapi-users/latest/installation/
+- https://fastapi-users.github.io/fastapi-users/latest/configuration/full-example/#__tabbed_1_2
+- https://github.com/fastapi-users/fastapi-users/tree/master/examples/sqlalchemy
+
 
 ## Project Description
 

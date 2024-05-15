@@ -3,7 +3,7 @@
 import logging
 
 from fastapi import FastAPI
-from routes import endpoints
+# from routes import endpoints
 
 # Create a logger instance
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ def read_root():
     return {"Hello": "World from app/main.py on port 9000! Adjusted! With a database!"}
 
 # Include the routes from endpoints.py
-app.include_router(endpoints.router)
+# app.include_router(endpoints.router)
 
 
 if __name__ == "__main__":
