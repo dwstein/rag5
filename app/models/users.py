@@ -17,6 +17,7 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 
 from models.db import User, get_user_db
 
+
 dotenv.load_dotenv()
 
 
