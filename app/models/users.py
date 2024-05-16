@@ -24,7 +24,7 @@ load_dotenv(dotenv_path=dotenv_path)
 
 
 SECRET = os.getenv("SECRET_KEY")
-print(f"SECRET is {SECRET}")
+# print(f"SECRET is {SECRET}")
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
