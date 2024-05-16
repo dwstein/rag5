@@ -9,7 +9,7 @@ from models.db import create_db_and_tables
 from models.schemas import UserRead, UserCreate, UserUpdate
 from routes.admin_endpoints import router as admin_router
 from routes.home_endpoints import router as home_router
-
+from routes.account_endpoints import router as account_router
 
 from contextlib import asynccontextmanager
 
@@ -45,10 +45,8 @@ def create_app() -> FastAPI:
     
     app.include_router(fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"])
 
-    # Serve the signup.html template
-    @app.get("/signup", response_class=HTMLResponse)
-    async def get_signup(request: Request):
-        return templates.TemplateResponse("signup.html", {"request": request})
+  
+    app.include_router(account_router, prefix="/account", tags=["account"])
     
     return app
 
