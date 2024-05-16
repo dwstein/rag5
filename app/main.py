@@ -2,10 +2,12 @@
 
 import logging
 from fastapi import FastAPI
+from fastapi.templating import Jinja2Templates
 from models.users import auth_backend, fastapi_users
 from models.db import create_db_and_tables
 from models.schemas import UserRead, UserCreate, UserUpdate
-from routes.admin_endpoints import router
+from routes.admin_endpoints import router as admin_router
+from routes.home_endpoints import router as home_router
 from contextlib import asynccontextmanager
 
 # Create a logger instance
@@ -30,7 +32,12 @@ def create_app() -> FastAPI:
     app.include_router(fastapi_users.get_users_router(UserRead, UserUpdate), prefix="/users", tags=["users"])
 
     # dev admin
-    app.include_router(router, prefix="/admin", tags=["admin"])
+    app.include_router(admin_router, prefix="/admin", tags=["admin"])
+    
+    # user pages
+    app.include_router(home_router, prefix="/home", tags=["home"])
+    
+   
     return app
 
 app = create_app()
