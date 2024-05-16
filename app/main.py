@@ -1,13 +1,16 @@
 # app/main.py
 
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from models.users import auth_backend, fastapi_users
 from models.db import create_db_and_tables
 from models.schemas import UserRead, UserCreate, UserUpdate
 from routes.admin_endpoints import router as admin_router
 from routes.home_endpoints import router as home_router
+
+
 from contextlib import asynccontextmanager
 
 # Create a logger instance
@@ -17,6 +20,8 @@ handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
+templates = Jinja2Templates(directory="templates")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -37,7 +42,14 @@ def create_app() -> FastAPI:
     # user pages
     app.include_router(home_router, prefix="/home", tags=["home"])
     
-   
+    
+    app.include_router(fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"])
+
+    # Serve the signup.html template
+    @app.get("/signup", response_class=HTMLResponse)
+    async def get_signup(request: Request):
+        return templates.TemplateResponse("signup.html", {"request": request})
+    
     return app
 
 app = create_app()

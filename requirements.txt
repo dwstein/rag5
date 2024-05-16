@@ -5,3 +5,4 @@ uuid
 fastapi-users[sqlalchemy]
 aiosqlite
 python-dotenv
+jinja2

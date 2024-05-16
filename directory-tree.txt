@@ -3,17 +3,28 @@
 ├── app
 │   ├── Dockerfile
 │   ├── __init__.py
+│   ├── directory-tree.txt
+│   ├── langchain
 │   ├── main.py
 │   ├── models
+│   │   ├── db.py
+│   │   ├── schemas.py
+│   │   └── users.py
+│   ├── populate_db.py
+│   ├── repositories
+│   ├── routes
 │   │   ├── __init__.py
-│   │   ├── data_test.py
-│   │   └── models_file.py
-│   └── routes
-│       ├── __init__.py
-│       └── endpoints.py
+│   │   ├── account_endpoints.py
+│   │   ├── admin_endpoints.py
+│   │   └── home_endpoints.py
+│   └── templates
+│       ├── base.html
+│       ├── home.html
+│       ├── login.html
+│       └── signup.html
 ├── directory-tree.txt
 ├── docker-compose.yaml
 ├── langchain-test.py
 └── requirements.txt
 
-4 directories, 13 files
+7 directories, 21 files
