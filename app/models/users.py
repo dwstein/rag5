@@ -4,7 +4,7 @@
 import uuid
 from typing import Optional
 import os
-import dotenv
+from dotenv import load_dotenv
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
@@ -18,7 +18,9 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 from models.db import User, get_user_db
 
 
-dotenv.load_dotenv()
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+print("Resolved .env path:", dotenv_path)  # This should point to the correct .env file location
+load_dotenv(dotenv_path=dotenv_path)
 
 
 SECRET = os.getenv("SECRET_KEY")
