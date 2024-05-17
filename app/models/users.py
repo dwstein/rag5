@@ -65,6 +65,9 @@ auth_backend = AuthenticationBackend(
     get_strategy=get_jwt_strategy,
 )
 
+# fastapi_users is an instance of FastAPIUsers that provides user management functionality
+# It is initialized with the get_user_manager dependency and auth_backend for authentication
+
 fastapi_users = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 
 

@@ -28,7 +28,4 @@ async def create_user(user_data: UserCreate):
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         await session.close()
-# Add these lines to app/main.py
-# app.include_router(admin_endpoints.router, prefix="/admin", tags=["admin"])
 
-# No changes needed in app/models/db.py
