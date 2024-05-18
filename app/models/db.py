@@ -25,6 +25,7 @@ class Base(DeclarativeBase):
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
+    conversations = relationship('Conversation', back_populates='user')
     pass
 
 
@@ -40,15 +41,17 @@ class Conversation(Base):
 
 class Message(Base):
     __tablename__ = 'messages'
+    
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     conversation_id = Column(UUID(as_uuid=True), ForeignKey('conversations.id'))
     role = Column(String)
     content = Column(Text)
+    
+    
     created_at = Column(DateTime, default=datetime.utcnow)
     conversation = relationship('Conversation', back_populates='messages')
 
-# Add the following lines to the User model to establish the relationship with Conversation
-User.conversations = relationship('Conversation', back_populates='user')
+
 
 
 
