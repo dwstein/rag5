@@ -46,8 +46,6 @@ class Message(Base):
     conversation_id = Column(UUID(as_uuid=True), ForeignKey('conversations.id'))
     role = Column(String)
     content = Column(Text)
-    
-    
     created_at = Column(DateTime, default=datetime.utcnow)
     conversation = relationship('Conversation', back_populates='messages')
 

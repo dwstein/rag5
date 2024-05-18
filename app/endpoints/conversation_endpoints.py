@@ -62,3 +62,49 @@ async def delete_conversation(conversation_id: UUID4, session: AsyncSession = De
     await session.delete(conversation)
     await session.commit()
     return {"ok": True}
+
+
+class MessageCreate(BaseModel):
+    content: str
+    conversation_id: UUID4
+
+class MessageResponse(BaseModel):
+    id: UUID4
+    content: str
+    conversation_id: UUID4
+    user_id: UUID4
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+@router.post("/messages/", response_model=MessageResponse)
+async def create_message(message_data: MessageCreate, session: AsyncSession = Depends(get_async_session)):
+    new_message = Message(content=message_data.content, conversation_id=message_data.conversation_id)
+    session.add(new_message)
+    await session.commit()
+    await session.refresh(new_message)
+    return new_message
+
+@router.get("/messages/", response_model=List[MessageResponse])
+async def read_messages(session: AsyncSession = Depends(get_async_session)):
+    messages = await session.execute(select(Message))
+    return messages.scalars().all()
+
+@router.get("/messages/{message_id}", response_model=MessageResponse)
+async def read_message(message_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    message = await session.get(Message, message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    return message
+
+@router.delete("/messages/{message_id}")
+async def delete_message(message_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    message = await session.get(Message, message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    await session.delete(message)
+    await session.commit()
+    return {"ok": True}
