@@ -1,47 +1,34 @@
-# app/populate_conversations.py
+import uuid
+from models.db import User, Conversation, Message, get_async_session, async_session_maker
+from sqlalchemy.ext.asyncio import AsyncSession
+from datetime import datetime, timezone
 
-import asyncio
-from models.db import get_async_session, create_db_and_tables, User
-from models.conversation_models import Conversation, Message
-from uuid import UUID
-from fastapi_users.db import SQLAlchemyUserDatabase
+async def populate_data():
+    async with async_session_maker() as session:
+        # Check if the user exists
+        user_id = uuid.UUID("19decc4a-3f07-4fc9-ab19-d95cf304c333")  # Convert string to UUID object
+        user = await session.get(User, user_id)
+        if not user:
+            print(f"No user found with ID {user_id}")
+            return  # Exit if user does not exist
 
-async def create_test_conversations():
-    async with get_async_session() as session:
-        user_db = SQLAlchemyUserDatabase(session, User)
+        # Add conversations
+        now_utc = datetime.now(timezone.utc)
+        conversation1 = Conversation(title="Conversation 1", user_id=user_id, created_at=now_utc, updated_at=now_utc)
+        conversation2 = Conversation(title="Conversation 2", user_id=user_id, created_at=now_utc, updated_at=now_utc)
+        session.add_all([conversation1, conversation2])
+        await session.commit()
 
-        # Get a user for which you want to create test conversations
-        user = await user_db.get(UUID("19decc4a-3f07-4fc9-ab19-d95cf304c333"))
+        # Add messages
+        message1 = Message(conversation_id=conversation1.id, role="user", content="Hello, how are you?", created_at=datetime.utcnow())
+        message2 = Message(conversation_id=conversation1.id, role="assistant", content="I'm doing well, thank you for asking!", created_at=datetime.utcnow())
+        message3 = Message(conversation_id=conversation2.id, role="user", content="Can you help me with a coding problem?", created_at=datetime.utcnow())
+        message4 = Message(conversation_id=conversation2.id, role="assistant", content="Sure, I'd be happy to help. Please provide more details about your problem.", created_at=datetime.utcnow())
+        session.add_all([message1, message2, message3, message4])
+        await session.commit()
 
-        if user:
-            # Create test conversations
-            conversation1 = Conversation(user_id=user.id, title="Test Conversation 1")
-            conversation2 = Conversation(user_id=user.id, title="Test Conversation 2")
-
-            session.add(conversation1)
-            session.add(conversation2)
-            await session.commit()
-
-            # Create test messages for each conversation
-            message1 = Message(conversation_id=conversation1.id, role="user", content="Hello, how are you?", model="gpt-3.5-turbo")
-            message2 = Message(conversation_id=conversation1.id, role="assistant", content="I'm doing well, thank you for asking!", model="gpt-3.5-turbo")
-            message3 = Message(conversation_id=conversation2.id, role="user", content="Can you tell me about the history of AI?", model="gpt-3.5-turbo")
-            message4 = Message(conversation_id=conversation2.id, role="assistant", content="Sure, the history of AI is fascinating...", model="gpt-3.5-turbo")
-
-            session.add(message1)
-            session.add(message2)
-            session.add(message3)
-            session.add(message4)
-            await session.commit()
-
-            print("Test conversations and messages created successfully!")
-        else:
-            print("User not found. Please provide a valid user ID.")
-
-async def main():
-    await create_db_and_tables()
-    await create_test_conversations()
+        print("Test data populated successfully!")
 
 if __name__ == "__main__":
-    asyncio.run(main())
-
+    import asyncio
+    asyncio.run(populate_data())
