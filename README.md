@@ -17,6 +17,12 @@ Feel free to jump in with suggestions and/or observations.  I'm learning as I go
 - https://github.com/fastapi-users/fastapi-users/tree/master/examples/sqlalchemy
 
 
+## SQLAlchemy
+- DeclaritiveBase - https://docs.sqlalchemy.org/en/20/orm/mapping_api.html#sqlalchemy.orm.DeclarativeBase
+
+- registry - https://docs.sqlalchemy.org/en/20/orm/mapping_api.html#sqlalchemy.orm.registry
+
+
 ## Project Description
 
 Create an API that can deployed on Docker that offers private use of Ollama models. The Ollama models will be stored on a volume and the API will be run on a separate container with the following features:
