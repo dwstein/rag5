@@ -6,10 +6,6 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from models.users import auth_backend, fastapi_users
 from models.db import create_db_and_tables
-from models.schemas import UserRead, UserCreate, UserUpdate
-# from endpoints.admin_endpoints import router as admin_router
-# from endpoints.home_endpoints import router as home_router
-# from endpoints.account_endpoints import router as account_router
 from config.routes import setup_routes
 
 
