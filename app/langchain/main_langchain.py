@@ -5,7 +5,9 @@
 
 
 # 1. General chat wiht Ollama
-#  -  in session
+#  -  use Ollama in container at localhost 8500
+#  -  start conversation with Ollama using langchian
+
 
 
 # 2. Save conversation

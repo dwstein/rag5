@@ -9,6 +9,14 @@ from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
+from datetime import datetime
+
+
+
+
 DATABASE_URL = "sqlite+aiosqlite:////database/test.db"
 
 
@@ -18,6 +26,7 @@ class Base(DeclarativeBase):
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
     pass
+
 
 
 engine = create_async_engine(DATABASE_URL)
@@ -43,3 +52,6 @@ async def get_async_session_endpoints() -> AsyncGenerator[AsyncSession, None]:
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
     yield SQLAlchemyUserDatabase(session, User)
+    
+    
+

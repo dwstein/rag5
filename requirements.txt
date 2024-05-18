@@ -6,4 +6,3 @@ fastapi-users[sqlalchemy]
 aiosqlite
 python-dotenv
 jinja2
-langchain
