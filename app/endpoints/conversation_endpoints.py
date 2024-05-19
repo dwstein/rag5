@@ -19,6 +19,10 @@ from models.db import Conversation, get_async_session
 from typing import List
 from pydantic import BaseModel, UUID4
 
+from sqlalchemy import select
+
+
+
 router = APIRouter()
 
 class ConversationCreate(BaseModel):
