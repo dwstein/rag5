@@ -112,3 +112,25 @@ async def delete_message(message_id: UUID4, session: AsyncSession = Depends(get_
     await session.delete(message)
     await session.commit()
     return {"ok": True}
+
+
+
+from typing import Optional
+# create an endpoint that retrieves all messages from the database, 
+# regardless of whether they have any missing fields
+class SafeMessageResponse(BaseModel):
+    id: UUID4
+    content: Optional[str]
+    conversation_id: Optional[UUID4]
+    user_id: Optional[UUID4]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+
+    class Config:
+        orm_mode = True
+        
+@router.get("/safe-messages/", response_model=List[SafeMessageResponse])
+async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
+    result = await session.execute(select(Message))
+    messages = result.scalars().all()
+    return messages

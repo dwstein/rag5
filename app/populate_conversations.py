@@ -9,7 +9,7 @@ async def populate_data():
     # Check if the user exists
     # Directly get the session using your session factory or specific function
     async with get_async_session_endpoints() as session:  # Adjust this line based on your actual session factory
-        user_id = uuid.UUID("8cede4d2-1dd2-43c6-b188-01cd76d42749")  # Convert string to UUID object
+        user_id = uuid.UUID("56ad7a01-aa18-4b0f-be29-0a4df0598619")  # Convert string to UUID object
         user = await session.get(User, user_id)
         if not user:
             print(f"No user found with ID {user_id}")
@@ -23,10 +23,10 @@ async def populate_data():
         await session.commit()
 
         # Add messages
-        message1 = Message(conversation_id=conversation1.id, role="user", content="Hello, how are you?", created_at=datetime.utcnow(), user_id=user_id)
-        message2 = Message(conversation_id=conversation1.id, role="assistant", content="I'm doing well, thank you for asking!", created_at=datetime.utcnow(), user_id=user_id)
-        message3 = Message(conversation_id=conversation2.id, role="user", content="Can you help me with a coding problem?", created_at=datetime.utcnow(), user_id=user_id)
-        message4 = Message(conversation_id=conversation2.id, role="assistant", content="Sure, I'd be happy to help. Please provide more details about your problem.", created_at=datetime.utcnow(), user_id=user_id)
+        message1 = Message(conversation_id=conversation1.id, role="user", content="Hello, how are you?", created_at=now_utc, updated_at=now_utc)
+        message2 = Message(conversation_id=conversation1.id, role="assistant", content="I'm doing well, thank you for asking!", created_at=now_utc, updated_at=now_utc)
+        message3 = Message(conversation_id=conversation2.id, role="user", content="Can you help me with a coding problem?", created_at=now_utc, updated_at=now_utc)
+        message4 = Message(conversation_id=conversation2.id, role="assistant", content="Sure, I'd be happy to help. Please provide more details about your problem.", created_at=now_utc, updated_at=now_utc)
         session.add_all([message1, message2, message3, message4])
         await session.commit()
 
