@@ -76,6 +76,7 @@ class MessageResponse(BaseModel):
     id: UUID4
     content: str
     conversation_id: UUID4
+    role: str
     user_id: UUID4
     created_at: datetime
     updated_at: datetime
@@ -122,6 +123,7 @@ class SafeMessageResponse(BaseModel):
     id: UUID4
     content: Optional[str]
     conversation_id: Optional[UUID4]
+    role: Optional[str]
     user_id: Optional[UUID4]
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
