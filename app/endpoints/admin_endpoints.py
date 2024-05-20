@@ -3,7 +3,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from models.db import get_async_session_endpoints, User
-from models.schemas import UserResponseModel, UserCreate  # Import the Pydantic model
+from models.user_schemas import UserResponseModel, UserCreate  # Import the Pydantic model
 from sqlalchemy import select
 
 router = APIRouter()

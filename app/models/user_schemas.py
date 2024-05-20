@@ -1,4 +1,4 @@
-# app/models/schemas.py
+# app/models/user_schemas.py
 
 import uuid
 

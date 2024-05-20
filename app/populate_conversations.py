@@ -9,7 +9,7 @@ async def populate_data():
     # Check if the user exists
     # Directly get the session using your session factory or specific function
     async with get_async_session_endpoints() as session:  # Adjust this line based on your actual session factory
-        user_id = uuid.UUID("7b632963-9489-4a80-ace3-33e623a24645")  # Convert string to UUID object
+        user_id = uuid.UUID("9e35373c-8cb3-4f5d-859d-a1a8ba94f10b")  # Convert string to UUID object
         user = await session.get(User, user_id)
         if not user:
             print(f"No user found with ID {user_id}")

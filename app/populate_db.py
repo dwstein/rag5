@@ -6,7 +6,7 @@
 import asyncio
 from models.db import get_async_session, create_db_and_tables, User
 from models.users import get_user_manager
-from models.schemas import UserCreate  # Import the UserCreate schema
+from app.models.user_schemas import UserCreate  # Import the UserCreate schema
 from fastapi_users.db import SQLAlchemyUserDatabase
 
 async def create_test_users():

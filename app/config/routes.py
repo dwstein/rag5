@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI
 from models.users import auth_backend, fastapi_users
-from models.schemas import UserRead, UserCreate, UserUpdate
+from models.user_schemas import UserRead, UserCreate, UserUpdate
 from endpoints.admin_endpoints import router as admin_router
 from endpoints.home_endpoints import router as home_router
 from endpoints.conversation_endpoints import router as conversation_router  # Import the conversation router

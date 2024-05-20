@@ -1,42 +1,49 @@
 # app/endpoints/conversation_endpoints.py
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from models.db import Conversation, Message, get_async_session_endpoints
-from uuid import UUID
 
 from typing import List
-from pydantic import BaseModel, UUID4
-from datetime import datetime 
-
-router = APIRouter()
-
-
+from pydantic import UUID4 #, BaseModel
+# from datetime import datetime 
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.db import Conversation, get_async_session
-from typing import List
-from pydantic import BaseModel, UUID4
-
 from sqlalchemy import select
 
+from models.db import Conversation, Message, get_async_session
+
+from models.conversation_schemas import MessageCreate, MessageResponse, SafeMessageResponse, ConversationCreate, ConversationResponse
+# from uuid import UUID
+
+
+
+# router = APIRouter()
+
+
+
+# from fastapi import APIRouter, Depends, HTTPException
+# from sqlalchemy.ext.asyncio import AsyncSession
+# from models.db import Conversation, get_async_session
+# from typing import List
+# from pydantic import BaseModel, UUID4
+
+
+
 
 
 router = APIRouter()
 
-class ConversationCreate(BaseModel):
-    title: str
+# class ConversationCreate(BaseModel):
+#     title: str
 
-class ConversationResponse(BaseModel):
-    id: UUID4
-    title: str
-    user_id: UUID4
-    created_at: datetime
-    updated_at: datetime
+# class ConversationResponse(BaseModel):
+#     id: UUID4
+#     title: str
+#     user_id: UUID4
+#     created_at: datetime
+#     updated_at: datetime
 
-    class Config:
-        orm_mode = True
+#     class Config:
+#         orm_mode = True
 
 @router.post("/conversations/", response_model=ConversationResponse)
 async def create_conversation(conversation_data: ConversationCreate, session: AsyncSession = Depends(get_async_session)):
@@ -68,21 +75,21 @@ async def delete_conversation(conversation_id: UUID4, session: AsyncSession = De
     return {"ok": True}
 
 
-class MessageCreate(BaseModel):
-    content: str
-    conversation_id: UUID4
+# class MessageCreate(BaseModel):
+#     content: str
+#     conversation_id: UUID4
 
-class MessageResponse(BaseModel):
-    id: UUID4
-    content: str
-    conversation_id: UUID4
-    role: str
-    user_id: UUID4
-    created_at: datetime
-    updated_at: datetime
+# class MessageResponse(BaseModel):
+#     id: UUID4
+#     content: str
+#     conversation_id: UUID4
+#     role: str
+#     user_id: UUID4
+#     created_at: datetime
+#     updated_at: datetime
 
-    class Config:
-        orm_mode = True
+#     class Config:
+#         orm_mode = True
 
 
 @router.post("/messages/", response_model=MessageResponse)
@@ -116,20 +123,20 @@ async def delete_message(message_id: UUID4, session: AsyncSession = Depends(get_
 
 
 
-from typing import Optional
-# create an endpoint that retrieves all messages from the database, 
-# regardless of whether they have any missing fields
-class SafeMessageResponse(BaseModel):
-    id: UUID4
-    content: Optional[str]
-    conversation_id: Optional[UUID4]
-    role: Optional[str]
-    user_id: Optional[UUID4]
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
+# from typing import Optional
+# # create an endpoint that retrieves all messages from the database, 
+# # regardless of whether they have any missing fields
+# class SafeMessageResponse(BaseModel):
+#     id: UUID4
+#     content: Optional[str]
+#     conversation_id: Optional[UUID4]
+#     role: Optional[str]
+#     user_id: Optional[UUID4]
+#     created_at: Optional[datetime]
+#     updated_at: Optional[datetime]
 
-    class Config:
-        orm_mode = True
+#     class Config:
+#         orm_mode = True
         
 @router.get("/safe-messages/", response_model=List[SafeMessageResponse])
 async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
