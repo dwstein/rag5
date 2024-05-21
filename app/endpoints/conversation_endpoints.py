@@ -3,11 +3,11 @@
 
 from typing import List
 from pydantic import UUID4
-
-
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+import logging
 
 from models.db import Conversation, Message, get_async_session
 from models.conversation_schemas import (
@@ -18,6 +18,8 @@ from models.conversation_schemas import (
     ConversationResponse
 )
 
+
+logger = logging.getLogger(__name__)
 
 
 router = APIRouter()
@@ -55,15 +57,14 @@ async def delete_conversation(conversation_id: UUID4, session: AsyncSession = De
     return {"ok": True}
 
 
+
+
+
+
 # MESSAGE ENDPOINTS
 
-@router.post("/messages/", response_model=MessageResponse)
-async def create_message(message_data: MessageCreate, session: AsyncSession = Depends(get_async_session)):
-    new_message = Message(content=message_data.content, conversation_id=message_data.conversation_id)
-    session.add(new_message)
-    await session.commit()
-    await session.refresh(new_message)
-    return new_message
+    
+
 
 @router.get("/messages/", response_model=List[MessageResponse])
 async def read_messages(session: AsyncSession = Depends(get_async_session)):
@@ -85,6 +86,13 @@ async def delete_message(message_id: UUID4, session: AsyncSession = Depends(get_
     await session.delete(message)
     await session.commit()
     return {"ok": True}
+
+
+
+
+
+
+
 
 
 # READ MESSAGES ADMIN ENDPOINT
