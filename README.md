@@ -11,10 +11,15 @@ This is a project for me to learn serveral thing at once
 
 Feel free to jump in with suggestions and/or observations.  I'm learning as I go.
 
-### FastAPI-Users
+## FastAPI-Users
 - https://fastapi-users.github.io/fastapi-users/latest/installation/
 - https://fastapi-users.github.io/fastapi-users/latest/configuration/full-example/#__tabbed_1_2
 - https://github.com/fastapi-users/fastapi-users/tree/master/examples/sqlalchemy
+
+## Langchain
+- Conceptual Guide:  https://python.langchain.com/v0.2/docs/concepts/#langgraph
+- https://python.langchain.com/v0.1/docs/use_cases/question_answering/chat_history/#setup
+- https://python.langchain.com/v0.1/docs/expression_language/how_to/message_history/
 
 
 ## SQLAlchemy
