@@ -20,7 +20,8 @@ Feel free to jump in with suggestions and/or observations.  I'm learning as I go
 - Conceptual Guide:  https://python.langchain.com/v0.2/docs/concepts/#langgraph
 - https://python.langchain.com/v0.1/docs/use_cases/question_answering/chat_history/#setup
 - https://python.langchain.com/v0.1/docs/expression_language/how_to/message_history/
-
+- https://python.langchain.com/v0.2/docs/concepts/#prompt-templates
+- https://api.python.langchain.com/en/latest/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html
 
 ## SQLAlchemy
 - DeclaritiveBase - https://docs.sqlalchemy.org/en/20/orm/mapping_api.html#sqlalchemy.orm.DeclarativeBase

@@ -26,16 +26,15 @@ class Base(DeclarativeBase):
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
     conversations = relationship('Conversation', back_populates='user')
-    # Assuming UUID is used for the primary key
-    # Additional relationships can be defined here
     messages = relationship('Message', back_populates='user')
+    
     pass
 
 
 class Conversation(Base):
     __tablename__ = 'conversations'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey('user.id'))
+    user_id = Column(UUID(as_uuid=True), ForeignKey('user.id'), nullable=True)
     title = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -52,7 +51,7 @@ class Message(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     conversation = relationship('Conversation', back_populates='messages')
     user = relationship('User', back_populates='messages')  
-    user_id = Column(UUID(as_uuid=True), ForeignKey('user.id'))  # Link to User model
+    user_id = Column(UUID(as_uuid=True), ForeignKey('user.id'), nullable=True)  # Link to User model
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
 

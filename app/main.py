@@ -1,6 +1,7 @@
 # app/main.py
 
 import logging
+from datetime import datetime
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -38,7 +39,7 @@ app = create_app()
 @app.get("/")
 def read_root():
     logger.info("Received request for root endpoint")
-    return {"Hello": "World from app/main.py on port 9000 with FastAPI"}
+    return {"Hello": "World from app/main.py on port 9000 with FastAPI", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 if __name__ == "__main__":
     logger.info("Starting the FastAPI application")
