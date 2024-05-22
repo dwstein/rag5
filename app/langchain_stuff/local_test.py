@@ -7,7 +7,7 @@ from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
-# works on local environemtn
+# works on local environment hitting the ollama container at localhost:8500
 # llm = ChatOllama(model="phi3:3.8b", base_url="http://localhost:8500")
 
 # works on "app" containter which is the rag5 backend container 
