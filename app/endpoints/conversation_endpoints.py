@@ -58,10 +58,28 @@ async def delete_conversation(conversation_id: UUID4, session: AsyncSession = De
 
 
 
-
-
-
 # MESSAGE ENDPOINTS
+
+
+# 5/21/24 thi works. it returns an answer.
+from langchain_stuff.simple_convo import joke_chain
+
+@router.post("/conversations/{conversation_id}/messages/")
+async def create_message(conversation_id: UUID4, message_data: MessageCreate, session: AsyncSession = Depends(get_async_session)):
+    conversation = await session.get(Conversation, conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    response = joke_chain(message_data.content)
+    new_message = Message(role="assistant", content=response, conversation_id=conversation_id)
+    
+    session.add(new_message)
+    await session.commit()
+    await session.refresh(new_message)
+    return new_message
+
+
+
 
     
 
