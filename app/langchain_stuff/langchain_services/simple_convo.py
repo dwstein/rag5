@@ -1,11 +1,10 @@
-# app/langchain_stuff/simple_convo.py
+# app/langchain_stuff/lanchain_services/simple_convo.py
 
 
 
 from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-
 
 
 # works on "app" containter which is the rag5 backend container 
