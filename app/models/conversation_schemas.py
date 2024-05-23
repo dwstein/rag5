@@ -24,7 +24,7 @@ class ConversationResponse(BaseModel):
 
 class MessageCreate(BaseModel):
     content: str
-    conversation_id: UUID4
+    # conversation_id: UUID4
 
 class MessageResponse(BaseModel):
     id: UUID4
