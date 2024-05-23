@@ -3,28 +3,37 @@
 ├── app
 │   ├── Dockerfile
 │   ├── __init__.py
+│   ├── config
+│   │   ├── __init__.py
+│   │   └── routes.py
 │   ├── directory-tree.txt
-│   ├── langchain
+│   ├── endpoints
+│   │   ├── __init__.py
+│   │   ├── admin_endpoints.py
+│   │   ├── conversation_endpoints.py
+│   │   └── home_endpoints.py
+│   ├── langchain_stuff
+│   │   ├── __init__.py
+│   │   ├── langchain_services
+│   │   │   ├── __init__.py
+│   │   │   ├── basic_chat.py
+│   │   │   └── simple_convo.py
+│   │   ├── local_test.py
+│   │   └── main_langchain.py
 │   ├── main.py
 │   ├── models
+│   │   ├── conversation_schemas.py
 │   │   ├── db.py
-│   │   ├── schemas.py
+│   │   ├── user_schemas.py
 │   │   └── users.py
+│   ├── populate_conversations.py
 │   ├── populate_db.py
-│   ├── repositories
-│   ├── routes
-│   │   ├── __init__.py
-│   │   ├── account_endpoints.py
-│   │   ├── admin_endpoints.py
-│   │   └── home_endpoints.py
 │   └── templates
 │       ├── base.html
-│       ├── home.html
-│       ├── login.html
-│       └── signup.html
+│       └── home.html
 ├── directory-tree.txt
 ├── docker-compose.yaml
 ├── langchain-test.py
 └── requirements.txt
 
-7 directories, 21 files
+8 directories, 29 files
