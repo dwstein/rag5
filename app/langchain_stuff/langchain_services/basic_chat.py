@@ -26,7 +26,7 @@ from langchain_core.prompts import (
 
 from models.db import Message, get_async_session
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from sqlalchemy import select
 
 
 # works on "app" containter which is the rag5 backend container 
@@ -34,18 +34,26 @@ llm = ChatOllama(model="phi3:3.8b", base_url="http://ollama:11434")
 
 async def chat_with_history(new_message, user_id, conversation_id, db: AsyncSession, message_history=None):
     
+     # Ensure conversation_id is a UUID
+    if isinstance(conversation_id, str):
+        conversation_id = UUID(conversation_id)
+    
+    
     # Initialize message_history if it is None
     if message_history is None:
+        # Retrieve the message history from the database based on the conversation_id
+        messages = await db.execute(
+            select(Message).where(Message.conversation_id == conversation_id).order_by(Message.created_at)
+        )
         message_history = [
             SystemMessagePromptTemplate.from_template("You are a helpful assistant.")
         ]
-    else:
-        # Check if the message_history is empty
-        if not message_history:
-            # Add the initial AI message to the message history
-            message_history.append(SystemMessagePromptTemplate.from_template("You are a helpful assistant."))
-    
-    
+        for message in messages.scalars():
+            if message.role == "user":
+                message_history.append(HumanMessagePromptTemplate.from_template(message.content))
+            elif message.role == "assistant":
+                message_history.append(AIMessagePromptTemplate.from_template(message.content))
+ 
     # Add the new message to the message history
     message_history.append(HumanMessagePromptTemplate.from_template(new_message))
 
