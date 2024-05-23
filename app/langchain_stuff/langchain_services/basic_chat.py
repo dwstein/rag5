@@ -85,15 +85,8 @@ async def chat_with_history(new_message, user_id, conversation_id, db: AsyncSess
     return response, message_history
 
 
-# def basic_chat(topic):
-#     prompt = ChatPromptTemplate.from_template("Tell me a short joke about {topic}")
-#     chain = prompt | llm | StrOutputParser()
-#     response = chain.invoke({"topic": topic})
-#     print(response)
-#     return response
-
-
-
+# this is for running from within the container itself to test
+# the chat_with_history function
 async def local_test_func():
     # Example user ID and conversation ID
     user_id = UUID("5f6239dc-9d1d-419f-b8d3-feeb4e8af16d")  # Replace with a valid user ID
@@ -120,8 +113,5 @@ async def local_test_func():
 
 
 if __name__ == "__main__":
-    # basic_chat("Cats")
-     # Example usage of chat_with_history
-  
 
     asyncio.run(local_test_func())
