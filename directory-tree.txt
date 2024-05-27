@@ -3,25 +3,60 @@
 ├── app
 │   ├── Dockerfile
 │   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── app.cpython-312.pyc
+│   │   ├── main.cpython-312.pyc
+│   │   └── users.cpython-312.pyc
 │   ├── config
 │   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── __init__.cpython-39.pyc
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   └── __init__.cpython-39.pyc
+│   │   │   └── routes.cpython-312.pyc
 │   │   └── routes.py
 │   ├── directory-tree.txt
 │   ├── endpoints
 │   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── __init__.cpython-39.pyc
+│   │   │   ├── account_endpoints.cpython-312.pyc
+│   │   │   ├── admin_endpoints.cpython-312.pyc
+│   │   │   ├── conversation_endpoints.cpython-312.pyc
+│   │   │   └── home_endpoints.cpython-312.pyc
 │   │   ├── admin_endpoints.py
 │   │   ├── conversation_endpoints.py
 │   │   └── home_endpoints.py
 │   ├── langchain_stuff
 │   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── __init__.cpython-39.pyc
+│   │   │   ├── local_test.cpython-39.pyc
+│   │   │   └── simple_convo.cpython-312.pyc
 │   │   ├── langchain_services
 │   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   ├── __init__.cpython-39.pyc
+│   │   │   │   ├── basic_chat.cpython-312.pyc
+│   │   │   │   └── simple_convo.cpython-312.pyc
 │   │   │   ├── basic_chat.py
 │   │   │   └── simple_convo.py
 │   │   ├── local_test.py
 │   │   └── main_langchain.py
 │   ├── main.py
 │   ├── models
+│   │   ├── __pycache__
+│   │   │   ├── conversation_models.cpython-312.pyc
+│   │   │   ├── conversation_schemas.cpython-312.pyc
+│   │   │   ├── db.cpython-312.pyc
+│   │   │   ├── schemas.cpython-312.pyc
+│   │   │   ├── user_schemas.cpython-312.pyc
+│   │   │   └── users.cpython-312.pyc
 │   │   ├── conversation_schemas.py
 │   │   ├── db.py
 │   │   ├── user_schemas.py
@@ -48,4 +83,4 @@
 ├── langchain-test.py
 └── requirements.txt
 
-13 directories, 36 files
+20 directories, 64 files
