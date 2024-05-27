@@ -33,7 +33,19 @@
 │       └── home.html
 ├── directory-tree.txt
 ├── docker-compose.yaml
+├── frontend
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   └── index.html
+│   ├── src
+│   │   ├── App.js
+│   │   ├── components
+│   │   ├── index.js
+│   │   └── pages
+│   └── webpack.config.js
 ├── langchain-test.py
 └── requirements.txt
 
-8 directories, 29 files
+13 directories, 36 files
