@@ -1,4 +1,15 @@
 const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+const env = dotenv.config().parsed;
+
+// Reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 module.exports = {
   entry: './src/index.js',
@@ -13,7 +24,7 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-            options: {
+          options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
@@ -30,7 +41,11 @@ module.exports = {
         context: ['/api'],
         target: 'http://app:9000',
         changeOrigin: true,
+        pathRewrite: { '^/api': '' },
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin(envKeys)
+  ],
 };
