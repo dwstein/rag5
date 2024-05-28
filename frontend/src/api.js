@@ -2,22 +2,14 @@
 
 const API_BASE_URL = '/api';
 
-export const fetchConversations = async () => {
+export const createConversation = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/conversations`);
+    const response = await fetch(`${API_BASE_URL}/conversations/new`, {
+      method: 'POST',
+    });
     return await response.json();
   } catch (error) {
-    console.error('Error fetching conversations:', error);
-    throw error;
-  }
-};
-
-export const fetchMessages = async (conversationId) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/conversations/${conversationId}/messages`);
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching messages:', error);
+    console.error('Error creating conversation:', error);
     throw error;
   }
 };
@@ -37,3 +29,26 @@ export const sendMessage = async (conversationId, content) => {
     throw error;
   }
 };
+
+
+export async function login(email, password) {
+  console.log('Sending login request with email:', email);
+  const response = await fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  console.log('Login response status:', response.status);
+
+  if (!response.ok) {
+    throw new Error('Login failed');
+  }
+
+  return response.json();
+}
+
+
+

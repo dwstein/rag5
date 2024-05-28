@@ -5,6 +5,7 @@ import uuid
 from typing import Optional
 import os
 from dotenv import load_dotenv
+import logging
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
@@ -17,6 +18,14 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 
 from models.db import User, get_user_db
 
+# Create a logger instance
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 
 dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
 print("Resolved .env path:", dotenv_path)  # This should point to the correct .env file location
@@ -25,6 +34,8 @@ load_dotenv(dotenv_path=dotenv_path)
 
 SECRET = os.getenv("SECRET_KEY")
 # print(f"SECRET is {SECRET}")
+
+logger=logging.getLogger(__name__)
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -49,6 +60,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 # configured with the user database interface. This manager handles the creation, 
 # updating, and verification of user accounts.
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
+    print(f"get_user_manager: {user_db}")
     yield UserManager(user_db)
 
 

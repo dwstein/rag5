@@ -62,10 +62,7 @@
 │   │   ├── user_schemas.py
 │   │   └── users.py
 │   ├── populate_conversations.py
-│   ├── populate_db.py
-│   └── templates
-│       ├── base.html
-│       └── home.html
+│   └── populate_db.py
 ├── directory-tree.txt
 ├── docker-compose.yaml
 ├── frontend
@@ -73,14 +70,20 @@
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── public
+│   │   ├── assets
+│   │   │   └── rag5-logo.png
 │   │   └── index.html
 │   ├── src
 │   │   ├── App.js
+│   │   ├── Login.js
+│   │   ├── api.js
 │   │   ├── components
+│   │   │   ├── NavBar.js
+│   │   │   └── Register.js
 │   │   ├── index.js
 │   │   └── pages
 │   └── webpack.config.js
 ├── langchain-test.py
 └── requirements.txt
 
-20 directories, 64 files
+20 directories, 67 files
