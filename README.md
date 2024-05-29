@@ -11,6 +11,11 @@ This is a project for me to learn serveral thing at once
 
 Feel free to jump in with suggestions and/or observations.  I'm learning as I go.
 
+
+### Front End
+- using react
+- webpack.confif.js - the devServer has a proxy to the backend where context has the variouls routes that match the routes in config/routes.py. e.g. `context: ['/api', '/auth', '/users', '/admin', '/home', '/convo'], // Proxy all backend routes`
+
 ## FastAPI-Users
 - https://fastapi-users.github.io/fastapi-users/latest/installation/
 - https://fastapi-users.github.io/fastapi-users/latest/configuration/full-example/#__tabbed_1_2
