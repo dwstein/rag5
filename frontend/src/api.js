@@ -53,20 +53,20 @@ const API_BASE_URL = '/api';
 
 
 
-export const getSafeMessages = async () => {
-  try {
-    const url = `${API_BASE_URL}/safe-messages/`;
-    console.log('Fetching safe messages from URL:', url); // Log the URL
+// export const getSafeMessages = async () => {
+//   try {
+//     const url = `${API_BASE_URL}/safe-messages/`;
+//     console.log('Fetching safe messages from URL inside api.js:', url); // Log the URL
 
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Failed to fetch safe messages');
-    }
-    const data = await response.json();
-    console.log("Safe messages:", data);
-    return data;
-  } catch (error) {
-    console.error("Error fetching safe messages:", error);
-    throw error;
-  }
-};
+//     const response = await fetch(url);
+//     if (!response.ok) {
+//       throw new Error('Failed to fetch safe messages');
+//     }
+//     const data = await response.json();
+//     console.log("Safe messages:", data);
+//     return data;
+//   } catch (error) {
+//     console.error("Error fetching safe messages:", error);
+//     throw error;
+//   }
+// };

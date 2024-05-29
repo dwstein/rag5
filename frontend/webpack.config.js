@@ -42,6 +42,7 @@ module.exports = {
         target: 'http://app:9000',
         changeOrigin: true,
         pathRewrite: { '^/api': '' },
+        logLevel: 'debug', // Add this line to enable debug logging
       },
     ],
   },

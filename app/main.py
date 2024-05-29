@@ -44,7 +44,7 @@ def read_root():
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok"}
+    return {"status": "ok-1"}
 
 from typing import List
 from models.conversation_schemas import (
@@ -62,7 +62,7 @@ from sqlalchemy import select
 
 @app.get("/safe-messages", response_model=List[SafeMessageResponse])
 async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
-    logger.info("Received request for all messages")
+    logger.info("Received request for all messages from safe-messages")
     result = await session.execute(select(Message))
     messages = result.scalars().all()
     return messages
