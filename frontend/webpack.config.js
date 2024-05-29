@@ -45,7 +45,7 @@ module.exports = {
       {
         // context: ['/'],
         // context: ['/api'], // Proxy only API requests
-        context: ['/api', '/auth', '/users', '/admin', '/home'], // Proxy all backend routes
+        context: ['/api', '/auth', '/users', '/admin', '/home', '/convo'], // Proxy all backend routes
         target: process.env.API_BASE_URL || 'http://localhost:9000',
         changeOrigin: true,
         logLevel: 'debug',

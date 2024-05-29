@@ -6,7 +6,7 @@ function HealthCheck() {
   const [healthCheck, setHealthCheck] = useState(null);
 
   useEffect(() => {
-    const healthCheckUrl = '/api/health_2';
+    const healthCheckUrl = '/convo/health_2';
     console.log('Health check url_2:', healthCheckUrl);
     fetch(healthCheckUrl)
       .then(response => response.json())
@@ -18,9 +18,9 @@ function HealthCheck() {
   }, []);
 
   return (
-    <div>
-      <h1>Health Check</h1>
-      <pre>{JSON.stringify(healthCheck, null, 2)}</pre>
+    <div className="box">
+      <h1 className="title">Health Check</h1>
+      <pre className="code">{JSON.stringify(healthCheck, null, 2)}</pre>
     </div>
   );
 }

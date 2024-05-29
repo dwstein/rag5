@@ -26,6 +26,6 @@ def setup_routes(app: FastAPI) -> FastAPI:
     app.include_router(home_router, prefix="/home", tags=["home"])
 
     # conversation and message routes
-    app.include_router(conversation_router, prefix="/api", tags=["conversations", "messages"])
+    app.include_router(conversation_router, prefix="/convo", tags=["conversations", "messages"])
 
     return app

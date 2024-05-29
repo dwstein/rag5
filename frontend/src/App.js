@@ -14,7 +14,7 @@ function App() {
 
 
    // Fetch messages
-   const messagesUrl = '/api/safe-messages_2/';
+   const messagesUrl = '/convo/safe-messages_2/';
    console.log('Fetch messages url:', messagesUrl);
    fetch(messagesUrl)
      .then(response => response.json())
