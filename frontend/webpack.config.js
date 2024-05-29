@@ -38,11 +38,12 @@ module.exports = {
     port: 3000,
     proxy: [
       {
-        context: ['/api'],
-        target: 'http://app:9000',
+        // context: ['/'],
+        // context: ['/api'], // Proxy only API requests
+        context: ['/api', '/auth', '/users', '/admin', '/home'], // Proxy all backend routes
+        target: process.env.API_BASE_URL || 'http://localhost:9000',
         changeOrigin: true,
-        pathRewrite: { '^/api': '' },
-        logLevel: 'debug', // Add this line to enable debug logging
+        logLevel: 'debug',
       },
     ],
   },

@@ -25,6 +25,8 @@ services:
       - "8500:11434"
     networks:
       - app-network
+    environment:
+      - API_BASE_URL=http://app:9000  # Set the backend URL
   
 
   frontend:

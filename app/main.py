@@ -42,9 +42,9 @@ def read_root():
     logger.info("Received request for root endpoint")
     return {"Hello": "World from app/main.py on port 9000 with FastAPI", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
-@app.get("/health")
-def health_check():
-    return {"status": "ok-1"}
+# @app.get("/health")
+# def health_check():
+#     return {"status": "ok-1"}
 
 from typing import List
 from models.conversation_schemas import (
@@ -60,12 +60,12 @@ from models.db import Message, get_async_session
 from sqlalchemy import select
 
 
-@app.get("/safe-messages", response_model=List[SafeMessageResponse])
-async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
-    logger.info("Received request for all messages from safe-messages")
-    result = await session.execute(select(Message))
-    messages = result.scalars().all()
-    return messages
+# @app.get("/safe-messages", response_model=List[SafeMessageResponse])
+# async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
+#     logger.info("Received request for all messages from safe-messages")
+#     result = await session.execute(select(Message))
+#     messages = result.scalars().all()
+#     return messages
 
 if __name__ == "__main__":
     logger.info("Starting the FastAPI application")
