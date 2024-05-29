@@ -30,7 +30,8 @@ async def lifespan(app: FastAPI):
 def create_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan)
     app = setup_routes(app)
-   
+    for route in app.routes:
+        print(f"route.path: {route.path}")
 
     return app
 
@@ -45,6 +46,26 @@ def read_root():
 def health_check():
     return {"status": "ok"}
 
+from typing import List
+from models.conversation_schemas import (
+    MessageCreate,
+    MessageResponse,
+    SafeMessageResponse,
+    ConversationCreate,
+    ConversationResponse
+)
+from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Depends
+from models.db import Message, get_async_session
+from sqlalchemy import select
+
+
+@app.get("/safe-messages", response_model=List[SafeMessageResponse])
+async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
+    logger.info("Received request for all messages")
+    result = await session.execute(select(Message))
+    messages = result.scalars().all()
+    return messages
 
 if __name__ == "__main__":
     logger.info("Starting the FastAPI application")

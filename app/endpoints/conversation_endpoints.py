@@ -180,8 +180,8 @@ async def create_message(
 
 # READ MESSAGES ADMIN ENDPOINT
         
-@router.get("/safe-messages/", response_model=List[SafeMessageResponse])
-async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
-    result = await session.execute(select(Message))
-    messages = result.scalars().all()
-    return messages
+# @router.get("/safe-messages/", response_model=List[SafeMessageResponse])
+# async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
+#     result = await session.execute(select(Message))
+#     messages = result.scalars().all()
+#     return messages
