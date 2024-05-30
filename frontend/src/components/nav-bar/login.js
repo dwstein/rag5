@@ -1,32 +1,30 @@
-import React, { useState } from "react";
-import axios from "axios";
+// frontend/src/components/nav-bar/Login.js
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+import React, { useState } from "react";
+import { login, getCurrentUser } from '../../auth/auth'; // Import the login and getCurrentUser functions
+
+const Login = ({ setIsLoggedIn, setUser }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log('Submitting form...');
     try {
-      const formData = new URLSearchParams();
-      formData.append("username", email);
-      formData.append("password", password);
-  
-      const response = await axios.post("/auth/jwt/login", formData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
-  
-      // Handle successful login
-      console.log(response.data);
-    } catch (err) {
-      // Handle login error
-      setError("Invalid email or password");
+      const token = await login(email, password); // Ensure token is assigned
+      console.log('Login Successful, token:', token);
+      setIsLoggedIn(true);
+      const currentUser = await getCurrentUser();
+      console.log('Current user:', currentUser); // Debugging statement
+      setUser(currentUser);
+      setError(''); // Clear any previous errors
+    } catch (error) {
+      console.error('Login failed:', error);
+      setError('Invalid email or password');
     }
   };
+
 
   return (
     <div className="box">
