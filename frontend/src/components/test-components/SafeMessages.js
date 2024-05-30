@@ -1,4 +1,4 @@
-// frontend/src/components/SafeMessages.js
+// frontend/src/components/test-components/SafeMessages.js
 
 import React, { useEffect, useState } from "react";
 
