@@ -30,7 +30,8 @@ async def lifespan(app: FastAPI):
 def create_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan)
     app = setup_routes(app)
-   
+    for route in app.routes:
+        print(f"route.path: {route.path}")
 
     return app
 
@@ -40,6 +41,9 @@ app = create_app()
 def read_root():
     logger.info("Received request for root endpoint")
     return {"Hello": "World from app/main.py on port 9000 with FastAPI", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+
+
 
 if __name__ == "__main__":
     logger.info("Starting the FastAPI application")

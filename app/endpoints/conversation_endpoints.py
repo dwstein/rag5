@@ -173,15 +173,18 @@ async def create_message(
 
 
 
-
+@router.get("/health_2")
+async def health_check_2():
+    return {"status": "ok-2"}
 
 
 
 
 # READ MESSAGES ADMIN ENDPOINT
         
-@router.get("/safe-messages/", response_model=List[SafeMessageResponse])
-async def read_all_messages(session: AsyncSession = Depends(get_async_session)):
+@router.get("/safe-messages_2/", response_model=List[SafeMessageResponse])
+async def read_all_messages_2(session: AsyncSession = Depends(get_async_session)):
+    logger.info("Received request for all messages from safe-messages_2")
     result = await session.execute(select(Message))
     messages = result.scalars().all()
     return messages
