@@ -23,7 +23,6 @@ module.exports = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
-      
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -34,6 +33,17 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
     ],
   },
   devServer: {
@@ -43,14 +53,13 @@ module.exports = {
     port: 3000,
     proxy: [
       {
-        // context: ['/'],
-        // context: ['/api'], // Proxy only API requests
         context: ['/api', '/auth', '/users', '/admin', '/home', '/convo'], // Proxy all backend routes
         target: process.env.API_BASE_URL || 'http://localhost:9000',
         changeOrigin: true,
         logLevel: 'debug',
       },
     ],
+    historyApiFallback: true, // Add this line to handle client-side routing
   },
   plugins: [
     new webpack.DefinePlugin(envKeys)

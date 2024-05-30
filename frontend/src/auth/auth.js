@@ -2,6 +2,8 @@
 
 import axios from 'axios';
 
+
+
 export const login = async (email, password) => {
   try {
     const formData = new URLSearchParams();
@@ -28,7 +30,10 @@ export const logout = () => {
 
 export const getCurrentUser = async () => {
   const token = localStorage.getItem('token');
-  if (!token) return null;
+  if (!token) {
+    console.error('No token found in local storage');
+    return null;
+  }
 
   try {
     const response = await axios.get('/users/me', {
@@ -36,10 +41,19 @@ export const getCurrentUser = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error('Get current user error:', error);
+    if (error.response && error.response.status === 401) {
+      console.error('Token is invalid or expired. Clearing token from localStorage.');
+      localStorage.removeItem('token');
+    } else {
+      console.error('Get current user error:', error.response ? error.response.data : error.message);
+    }
     return null;
   }
 };
+
+
+
+
 
 export const isAuthenticated = () => {
   return !!localStorage.getItem('token');

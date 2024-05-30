@@ -60,7 +60,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 # configured with the user database interface. This manager handles the creation, 
 # updating, and verification of user accounts.
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
-    print(f"get_user_manager: {user_db}")
+    # print(f"get_user_manager: {user_db}")
     yield UserManager(user_db)
 
 
