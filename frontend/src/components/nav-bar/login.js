@@ -1,26 +1,20 @@
 // frontend/src/components/nav-bar/Login.js
 
 import React, { useState } from "react";
-import { login, getCurrentUser } from '../../auth/auth'; // Import the login and getCurrentUser functions
+import { useAuth } from '../../auth/AuthProvider';
 
-const Login = ({ setIsLoggedIn, setUser }) => {
+const Login = () => {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting form...');
     try {
-      const token = await login(email, password); // Ensure token is assigned
-      console.log('Login Successful, token:', token);
-      setIsLoggedIn(true);
-      const currentUser = await getCurrentUser();
-      console.log('Current user:', currentUser); // Debugging statement
-      setUser(currentUser);
+      await login(email, password);
       setError(''); // Clear any previous errors
     } catch (error) {
-      console.error('Login failed:', error);
       setError('Invalid email or password');
     }
   };

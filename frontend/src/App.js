@@ -6,32 +6,19 @@ import 'bulma/css/bulma.min.css';
 import HealthCheck from "./components/test-components/HealthCheck";
 import SafeMessages from "./components/test-components/SafeMessages";
 import Login from "./components/nav-bar/Login";
-// import Chat from "./components/chat/Chat"; // Import the Chat component
-import { getCurrentUser, isAuthenticated } from './auth/auth'; // Import authentication functions
 import LoggedInAs from "./components/nav-bar/LoggedInAs";
+import { useAuth } from './auth/AuthProvider';
 import NavBar from "./components/nav-bar/NavBar";
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated());
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (isLoggedIn) {
-        const currentUser = await getCurrentUser();
-        setUser(currentUser);
-      }
-    };
-
-    fetchUser();
-  }, [isLoggedIn]);
+  const { isLoggedIn, user } = useAuth();
 
   return (
     <div className="container">
       <NavBar />
       <Routes>
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={
           <>
             <LoggedInAs />
