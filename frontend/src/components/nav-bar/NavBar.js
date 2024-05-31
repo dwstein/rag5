@@ -41,11 +41,11 @@ const NavBar = () => {
       </div>
 
       <div id="navbarBasicExample" className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
+        {/* Ensure the navbar-start is empty or contains left-aligned items */}
         <div className="navbar-start">
-          <Link className="navbar-item" to="/">
-            Home
-          </Link>
+          {/* Add any left-aligned items here if needed */}
         </div>
+
 
         <div className="navbar-end">
           {isAuthenticated() ? (
