@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 const SafeMessages = () => {
+
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { useAuth } from '../../auth/AuthProvider';
 
 const LoggedInAs = () => {
   const { user } = useAuth();
+  
 
 
   return (

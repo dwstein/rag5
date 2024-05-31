@@ -10,7 +10,7 @@ import { AuthProvider } from './auth/AuthProvider';
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-    <AuthProvider>
+      <AuthProvider>
         <App />
       </AuthProvider>
     </Router>

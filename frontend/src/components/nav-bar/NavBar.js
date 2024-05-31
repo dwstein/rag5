@@ -5,9 +5,12 @@ import { Link } from 'react-router-dom';
 import { isAuthenticated, logout } from '../../auth/auth';
 import LoggedInAs from './LoggedInAs';
 import logo from '../../../public/assets/rag5-logo.png';
+import Login from './Login';
+
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -18,8 +21,22 @@ const NavBar = () => {
     setIsActive(!isActive);
   };
 
+  const handleLoginClick = () => {
+    console.log("Login button clicked");
+    setShowLogin(true);
+  };
+
+  const handleLoginSuccess = () => {
+    console.log("Login successful");
+    setShowLogin(false);
+    window.location.reload(); // Refresh the page to update the UI
+  };
+
+
+  console.log("showLogin state:", showLogin);
 
   return (
+    <>
     <nav className="navbar is-light" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <Link className="navbar-item" to="/">
@@ -46,7 +63,6 @@ const NavBar = () => {
           {/* Add any left-aligned items here if needed */}
         </div>
 
-
         <div className="navbar-end">
           {isAuthenticated() ? (
             <>
@@ -66,9 +82,9 @@ const NavBar = () => {
                   <Link className="button is-primary" to="/signup">
                     <strong>Sign Up</strong>
                   </Link>
-                  <Link className="button is-light" to="/login">
+                  <button className="button is-light" onClick={handleLoginClick}>
                     Log In
-                  </Link>
+                  </button>
                 </div>
               </div>
             </>
@@ -76,7 +92,10 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
-  );
+    {showLogin && <Login onLoginSuccess={handleLoginSuccess} />}
+  </>
+);
 };
+
 
 export default NavBar;
