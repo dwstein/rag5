@@ -1,30 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { getCurrentUser } from '../../auth/auth';
+import React from 'react';
+import { useAuth } from '../../auth/AuthProvider';
 
 const LoggedInAs = () => {
-  const [userEmail, setUserEmail] = useState('Not Logged In');
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchUserEmail = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (user && user.email) {
-          setUserEmail(user.email);
-        } else {
-          setUserEmail('Not Logged In');
-        }
-      } catch (error) {
-        console.error('Error fetching current user:', error);
-        setUserEmail('Not Logged In');
-      }
-    };
-
-    fetchUserEmail();
-  }, []);
 
   return (
     <div className="navbar-item">
-      <p className="has-text-weight-bold">Logged in as: <span className="has-text-info">{userEmail}</span></p>
+      <p className="has-text-weight-bold">
+        Logged in as: <span className="has-text-info">{user ? user.email : 'Not Logged In'}</span>
+      </p>
     </div>
   );
 };
