@@ -1,16 +1,23 @@
 // frontend/src/components/nav-bar/NavBar.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated, logout } from '../../auth/auth';
 import LoggedInAs from './LoggedInAs';
 import logo from '../../../public/assets/rag5-logo.png';
 
 const NavBar = () => {
+  const [isActive, setIsActive] = useState(false);
+
   const handleLogout = () => {
     logout();
     window.location.reload(); // Refresh the page to update the UI
   };
+
+  const toggleBurgerMenu = () => {
+    setIsActive(!isActive);
+  };
+
 
   return (
     <nav className="navbar is-light" role="navigation" aria-label="main navigation">
@@ -21,10 +28,11 @@ const NavBar = () => {
 
         <a
           role="button"
-          className="navbar-burger"
+          className={`navbar-burger burger ${isActive ? 'is-active' : ''}`}
           aria-label="menu"
-          aria-expanded="false"
+          aria-expanded={isActive ? 'true' : 'false'}
           data-target="navbarBasicExample"
+          onClick={toggleBurgerMenu}
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -32,7 +40,7 @@ const NavBar = () => {
         </a>
       </div>
 
-      <div id="navbarBasicExample" className="navbar-menu">
+      <div id="navbarBasicExample" className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
         <div className="navbar-start">
           <Link className="navbar-item" to="/">
             Home
