@@ -6,11 +6,12 @@ import { isAuthenticated, logout } from '../../auth/auth';
 import LoggedInAs from './LoggedInAs';
 import logo from '../../../public/assets/rag5-logo.png';
 import Login from './Login';
-
+import Signup from './Signup'; // Import the Signup component
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false); // State for showing signup form
 
   const handleLogout = () => {
     logout();
@@ -26,18 +27,33 @@ const NavBar = () => {
     setShowLogin(true);
   };
 
+  const handleSignupClick = () => {
+    console.log("Signup button clicked");
+    setShowSignup(true);
+  };
+
   const handleLoginSuccess = () => {
     console.log("Login successful");
     setShowLogin(false);
     window.location.reload(); // Refresh the page to update the UI
   };
 
+  const handleSignupSuccess = () => {
+    console.log("Signup successful");
+    setShowSignup(false);
+    window.location.reload(); // Refresh the page to update the UI
+  };
+
+
   const handleCancel = () => {
     console.log("Login canceled");
     setShowLogin(false);
+    setShowSignup(false);
   };
 
+
   console.log("showLogin state:", showLogin);
+  console.log("showSignup state:", showSignup);
 
   return (
     <>
@@ -83,7 +99,7 @@ const NavBar = () => {
             <>
               <div className="navbar-item">
                 <div className="buttons">
-                  <Link className="button is-primary" to="/signup">
+                  <Link className="button is-primary" onClick={handleSignupClick}>
                     <strong>Sign Up</strong>
                   </Link>
                   <button className="button is-light" onClick={handleLoginClick}>
@@ -97,6 +113,7 @@ const NavBar = () => {
       </div>
     </nav>
     {showLogin && <Login onLoginSuccess={handleLoginSuccess} onCancel={handleCancel}/>}
+    {showSignup && <Signup onSignupSuccess={handleSignupSuccess} onCancel={handleCancel} />}
   </>
 );
 };

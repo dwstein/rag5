@@ -24,6 +24,24 @@ export const login = async (email, password) => {
   }
 };
 
+
+export const signup = async (email, password) => {
+  try {
+    const response = await axios.post('/auth/register', {
+      email,
+      password,
+    });
+    const { access_token } = response.data;
+    localStorage.setItem('token', access_token);
+    return access_token;
+  } catch (error) {
+    console.error('Signup error:', error);
+    throw error;
+  }
+};
+
+
+
 export const logout = () => {
   localStorage.removeItem('token');
 };

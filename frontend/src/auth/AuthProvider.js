@@ -31,6 +31,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
+  const signup = async (email, password) => {
+    try {
+      await authSignup(email, password);
+      setIsLoggedIn(true);
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+
+
+
   const logout = () => {
     authLogout();
     setIsLoggedIn(false);
@@ -38,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
