@@ -1,7 +1,7 @@
 // frontend/src/auth/AuthProvider.js
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { getCurrentUser, isAuthenticated, login as authLogin, logout as authLogout } from './auth';
+import { getCurrentUser, isAuthenticated, login as authLogin, logout as authLogout, signup as authSignup } from './auth';
 
 const AuthContext = createContext();
 
