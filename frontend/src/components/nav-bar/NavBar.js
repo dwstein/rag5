@@ -57,7 +57,7 @@ const NavBar = () => {
 
   return (
     <>
-    <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+    <nav className="navbar is-light box" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <Link className="navbar-item" to="/">
           <img src={logo} alt="RAG5 Logo" />
