@@ -32,6 +32,10 @@ const NavBar = () => {
     window.location.reload(); // Refresh the page to update the UI
   };
 
+  const handleCancel = () => {
+    console.log("Login canceled");
+    setShowLogin(false);
+  };
 
   console.log("showLogin state:", showLogin);
 
@@ -92,7 +96,7 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
-    {showLogin && <Login onLoginSuccess={handleLoginSuccess} />}
+    {showLogin && <Login onLoginSuccess={handleLoginSuccess} onCancel={handleCancel}/>}
   </>
 );
 };
