@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated, logout } from '../../auth/auth';
 import LoggedInAs from './LoggedInAs';
-import logo from '../../../public/assets/rag5-logo.png';
+import logo from '../../../public/assets/rag5.png';
 import Login from './Login';
 import Signup from './Signup'; // Import the Signup component
 
