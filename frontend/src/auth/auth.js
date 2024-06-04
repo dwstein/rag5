@@ -27,19 +27,23 @@ export const login = async (email, password) => {
 
 export const signup = async (email, password) => {
   try {
+    console.log('Signup request: ', email, password);
     const response = await axios.post('/auth/register', {
       email,
       password,
     });
-    const { access_token } = response.data;
-    localStorage.setItem('token', access_token);
+    console.log('Signup response:', response.data);
+
+    const access_token = await login(email, password);
+    console.log('Login response token: ', access_token);
+  
     return access_token;
   } catch (error) {
+    console.log('Signup error:', error.response ? error.response.data : error.message);
     console.error('Signup error:', error);
     throw error;
   }
 };
-
 
 
 export const logout = () => {
@@ -48,6 +52,7 @@ export const logout = () => {
 
 export const getCurrentUser = async () => {
   const token = localStorage.getItem('token');
+  console.log('Current user token:', token);
   if (!token) {
     console.error('No token found in local storage');
     return null;
@@ -57,8 +62,10 @@ export const getCurrentUser = async () => {
     const response = await axios.get('/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
+    console.log('Current user response:', response.data);
     return response.data;
   } catch (error) {
+    console.error('Get current user error:', error.response ? error.response.data : error.message);
     if (error.response && error.response.status === 401) {
       console.error('Token is invalid or expired. Clearing token from localStorage.');
       localStorage.removeItem('token');
@@ -68,7 +75,6 @@ export const getCurrentUser = async () => {
     return null;
   }
 };
-
 
 
 

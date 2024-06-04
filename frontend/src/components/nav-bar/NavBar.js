@@ -35,13 +35,13 @@ const NavBar = () => {
   const handleLoginSuccess = () => {
     // console.log("Login successful");
     setShowLogin(false);
-    window.location.reload(); // Refresh the page to update the UI
+    // window.location.reload(); // Refresh the page to update the UI
   };
 
   const handleSignupSuccess = () => {
     // console.log("Signup successful");
     setShowSignup(false);
-    window.location.reload(); // Refresh the page to update the UI
+    // window.location.reload(); // Refresh the page to update the UI
   };
 
 
