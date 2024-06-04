@@ -1,23 +1,43 @@
 // frontend/src/App.js
 
-import React, { useEffect, useState } from "react";
-import 'bulma/css/bulma.min.css'; // Import Bulma CSS
-import HealthCheck from "./components/test-components/HealthCheck"; 
-import SafeMessages from "./components/test-components/SafeMessages"; // Import the new component
-import Login from "./components/nav-bar/login";
+import React, { useState, useEffect } from "react";
+import { Route, Routes  } from 'react-router-dom';
+
+import HealthCheck from "./components/test-components/HealthCheck";
+import SafeMessages from "./components/test-components/SafeMessages";
+
+import LoggedInAs from "./components/nav-bar/LoggedInAs";
+import { useAuth } from './auth/AuthProvider';
+import NavBar from "./components/nav-bar/NavBar";
+import { ConversationProvider } from "./context/ConversationContext";
+import Convo from "./components/conversation/Convo";
 
 function App() {
-
-
   return (
-    <div className="container">
-      <Login /> {/* Use the Login component */}
-      {/* Add other components here */}
-      <HealthCheck />
-      <SafeMessages />
-  </div>
+    <ConversationProvider>
+      <div className="container">
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/conversations/:conversationId" element={<ConvoWrapper />} />
+        </Routes>
+      </div>
+    </ConversationProvider>
   );
 }
 
+const Home = () => (
+  <>
+    {/* <LoggedInAs /> */}
+    <Convo />
+    <HealthCheck />
+    <SafeMessages />
+  </>
+);
+
+const ConvoWrapper = () => {
+  const { conversationId } = useParams();
+  return <Convo conversationId={conversationId} />;
+};
 
 export default App;

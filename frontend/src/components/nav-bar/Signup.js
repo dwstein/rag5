@@ -1,10 +1,10 @@
-// frontend/src/components/nav-bar/Login.js
+// frontend/src/components/nav-bar/Signup.js
 
 import React, { useState } from "react";
 import { useAuth } from '../../auth/AuthProvider';
 
-const Login = ({ onLoginSuccess, onCancel }) => {
-  const { login } = useAuth();
+const Signup = ({ onSignupSuccess, onCancel }) => {
+  const { signup } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,20 +12,19 @@ const Login = ({ onLoginSuccess, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await signup(email, password);
       setError(''); // Clear any previous errors
-      onLoginSuccess(); // Call the success handler
+      onSignupSuccess(); // Call the success handler
     } catch (error) {
-      setError('Invalid email or password');
+      setError('Error signing up. Please try again.');
     }
   };
-
 
   return (
     <div className="columns is-mobile is-centered">
       <div className="column is-one-quarter-desktop is-half-tablet is-full-mobile is-offset-three-quarters-desktop is-offset-half-tablet">
         <div className="box">
-          <h1 className="title">Login</h1>
+          <h1 className="title">Sign Up</h1>
           <form onSubmit={handleSubmit}>
             <div className="field">
               <label className="label">Email</label>
@@ -55,7 +54,7 @@ const Login = ({ onLoginSuccess, onCancel }) => {
             <div className="field is-grouped">
               <div className="control">
                 <button className="button is-primary" type="submit">
-                  Login
+                  Sign Up
                 </button>
               </div>
               <div className="control">
@@ -78,5 +77,4 @@ const Login = ({ onLoginSuccess, onCancel }) => {
   );
 };
 
-
-export default Login;
+export default Signup;

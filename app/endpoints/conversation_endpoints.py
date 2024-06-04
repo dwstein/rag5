@@ -23,7 +23,7 @@ from models.conversation_schemas import (
     ConversationCreate,
     ConversationResponse
 )
-from models.users import current_active_user, User
+from models.users import current_active_user, get_current_user_optional, User
 from langchain_stuff.langchain_services.basic_chat import chat_with_history
 import uuid
 from uuid import UUID
@@ -34,13 +34,17 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
+
+
+
+
 # CONVERSATION ENDPOINTS (MESSAGES BELOW)
 
 @router.post("/conversations/new")
 async def create_new_conversation(
     response: Response,
     db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(current_active_user)
+    current_user: User = Depends(get_current_user_optional)
 ):
     conversation_id = uuid.uuid4()
     
@@ -93,26 +97,26 @@ async def create_conversation(
     await db.refresh(conversation)
     return conversation
 
-# @router.get("/conversations/", response_model=List[ConversationResponse])
-# async def read_conversations(session: AsyncSession = Depends(get_async_session)):
-#     conversations = await session.execute(select(Conversation))
-#     return conversations.scalars().all()
+@router.get("/conversations/", response_model=List[ConversationResponse])
+async def read_conversations(session: AsyncSession = Depends(get_async_session)):
+    conversations = await session.execute(select(Conversation))
+    return conversations.scalars().all()
 
-# @router.get("/conversations/{conversation_id}", response_model=ConversationResponse)
-# async def read_conversation(conversation_id: UUID4, session: AsyncSession = Depends(get_async_session)):
-#     conversation = await session.get(Conversation, conversation_id)
-#     if not conversation:
-#         raise HTTPException(status_code=404, detail="Conversation not found")
-#     return conversation
+@router.get("/conversations/{conversation_id}", response_model=ConversationResponse)
+async def read_conversation(conversation_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    conversation = await session.get(Conversation, conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    return conversation
 
-# @router.delete("/conversations/{conversation_id}")
-# async def delete_conversation(conversation_id: UUID4, session: AsyncSession = Depends(get_async_session)):
-#     conversation = await session.get(Conversation, conversation_id)
-#     if not conversation:
-#         raise HTTPException(status_code=404, detail="Conversation not found")
-#     await session.delete(conversation)
-#     await session.commit()
-#     return {"ok": True}
+@router.delete("/conversations/{conversation_id}")
+async def delete_conversation(conversation_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    conversation = await session.get(Conversation, conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    await session.delete(conversation)
+    await session.commit()
+    return {"ok": True}
 
 
 
@@ -126,7 +130,7 @@ async def create_message(
     message_data: MessageCreate,
     request: Request,
     db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(current_active_user)
+    current_user: User = Depends(get_current_user_optional)
 ):
     conversation = await db.get(Conversation, conversation_id)
     if not conversation:
@@ -145,30 +149,38 @@ async def create_message(
 
 
 
+@router.get("/conversations/{conversation_id}/messages/", response_model=List[MessageResponse])
+async def read_messages(conversation_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    conversation = await session.get(Conversation, conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    result = await session.execute(select(Message).where(Message.conversation_id == conversation_id))
+    messages = result.scalars().all()
+    return messages
 
 
 
+@router.get("/messages/", response_model=List[MessageResponse])
+async def read_messages(session: AsyncSession = Depends(get_async_session)):
+    messages = await session.execute(select(Message))
+    return messages.scalars().all()
 
-# @router.get("/messages/", response_model=List[MessageResponse])
-# async def read_messages(session: AsyncSession = Depends(get_async_session)):
-#     messages = await session.execute(select(Message))
-#     return messages.scalars().all()
+@router.get("/messages/{message_id}", response_model=MessageResponse)
+async def read_message(message_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    message = await session.get(Message, message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    return message
 
-# @router.get("/messages/{message_id}", response_model=MessageResponse)
-# async def read_message(message_id: UUID4, session: AsyncSession = Depends(get_async_session)):
-#     message = await session.get(Message, message_id)
-#     if not message:
-#         raise HTTPException(status_code=404, detail="Message not found")
-#     return message
-
-# @router.delete("/messages/{message_id}")
-# async def delete_message(message_id: UUID4, session: AsyncSession = Depends(get_async_session)):
-#     message = await session.get(Message, message_id)
-#     if not message:
-#         raise HTTPException(status_code=404, detail="Message not found")
-#     await session.delete(message)
-#     await session.commit()
-#     return {"ok": True}
+@router.delete("/messages/{message_id}")
+async def delete_message(message_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    message = await session.get(Message, message_id)
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    await session.delete(message)
+    await session.commit()
+    return {"ok": True}
 
 
 

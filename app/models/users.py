@@ -60,7 +60,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 # configured with the user database interface. This manager handles the creation, 
 # updating, and verification of user accounts.
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
-    print(f"get_user_manager: {user_db}")
+    # print(f"get_user_manager: {user_db}")
     yield UserManager(user_db)
 
 
@@ -86,3 +86,20 @@ fastapi_users = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 # dependency is defined to be used in route functions to ensure 
 # that only authenticated and active users can access certain API endpoints.
 current_active_user = fastapi_users.current_user(active=True)
+
+
+# Define a new dependency that allows unauthenticated access
+async def get_current_user_optional(
+    request: Request,
+    user_db: SQLAlchemyUserDatabase = Depends(get_user_db),
+    jwt_strategy: JWTStrategy = Depends(get_jwt_strategy),
+) -> Optional[User]:
+    token = request.cookies.get("Authorization") or request.headers.get("Authorization")
+    if token:
+        token = token.replace("Bearer ", "")
+        try:
+            user = await fastapi_users.get_current_user(token, user_db, jwt_strategy)
+            return user
+        except Exception:
+            return None
+    return None
