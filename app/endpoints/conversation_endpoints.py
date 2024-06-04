@@ -130,7 +130,7 @@ async def create_message(
     message_data: MessageCreate,
     request: Request,
     db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(current_active_user)
+    current_user: User = Depends(get_current_user_optional)
 ):
     conversation = await db.get(Conversation, conversation_id)
     if not conversation:

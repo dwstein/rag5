@@ -37,7 +37,11 @@ const Convo = () => {
   }, [conversationId]);
 
   const handleNewMessage = (newMessage) => {
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    setMessages((prevMessages) => {
+      const updatedMessages = [...prevMessages, newMessage];
+      console.log('Updated messages:', updatedMessages);
+      return updatedMessages;
+    });
   };
 
 

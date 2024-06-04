@@ -23,30 +23,30 @@ const NavBar = () => {
   };
 
   const handleLoginClick = () => {
-    console.log("Login button clicked");
+    // console.log("Login button clicked");
     setShowLogin(true);
   };
 
   const handleSignupClick = () => {
-    console.log("Signup button clicked");
+    // console.log("Signup button clicked");
     setShowSignup(true);
   };
 
   const handleLoginSuccess = () => {
-    console.log("Login successful");
+    // console.log("Login successful");
     setShowLogin(false);
     window.location.reload(); // Refresh the page to update the UI
   };
 
   const handleSignupSuccess = () => {
-    console.log("Signup successful");
+    // console.log("Signup successful");
     setShowSignup(false);
     window.location.reload(); // Refresh the page to update the UI
   };
 
 
   const handleCancel = () => {
-    console.log("Login canceled");
+    // console.log("Login canceled");
     setShowLogin(false);
     setShowSignup(false);
   };
