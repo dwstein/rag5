@@ -1,39 +1,18 @@
 // frontend/src/components/conversation/MessageInput.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useConversation } from '../../context/ConversationContext';
 
-const MessageInput = ({ conversationId, onMessageSent }) => {
-  const [content, setContent] = useState('');
-  const { isLoggedIn, token } = useConversation();
+import React from 'react';
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!content.trim()) return;
-
-    try {
-      const response = await axios.post(`/convo/conversations/${conversationId}/messages/`, { content }, {
-        headers: isLoggedIn ? { Authorization: `Bearer ${token}` } : {}
-      });
-      onMessageSent(response.data.response);
-      setContent('');
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
-  };
+const Message = ({ message }) => {
+  const { content, role } = message;
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: 'auto' }}>
-      <input
-        className="input"
-        type="text"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Type your message..."
-      />
-      <button className="button is-primary" type="submit">Send</button>
-    </form>
+    <article className={`message ${role === 'user' ? 'is-primary' : 'is-info'}`}>
+      <div className="message-body">
+        <p>{content}</p>
+      </div>
+    </article>
   );
 };
 
-export default MessageInput;
+export default Message;
+

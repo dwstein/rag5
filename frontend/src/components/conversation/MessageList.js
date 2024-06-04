@@ -9,8 +9,8 @@ const MessageList = ({ messages }) => {
       {messages.length === 0 ? (
         <div>No messages yet. Start a conversation!</div>
       ) : (
-        messages.map((message) => (
-          <Message key={message.id} message={message} />
+        messages.map((message, index) => (
+          <Message key={message.id|| index} message={message} />
         ))
       )}
     </div>

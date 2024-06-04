@@ -1,6 +1,7 @@
+// frontend/src/components/conversation/MessageInput.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
-import autosize from 'autosize';
 import { useConversation } from '../../context/ConversationContext';
 
 const MessageInput = ({ conversationId, onMessageSent }) => {
@@ -10,12 +11,10 @@ const MessageInput = ({ conversationId, onMessageSent }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim()) return;
-    console.log('Sending message:', content);
 
     try {
-      const response = await axios.post(`/convo/conversations/${conversationId}/messages/`, { content }); 
-      console.log('Server response:', response.data);
-      onMessageSent(response.data.response);
+      const response = await axios.post(`/convo/conversations/${conversationId}/messages/`, { content });
+      onMessageSent(content, response.data.response);
       setContent('');
     } catch (error) {
       console.error('Error sending message:', error);
@@ -26,7 +25,6 @@ const MessageInput = ({ conversationId, onMessageSent }) => {
     const words = e.target.value.trim().split(/\s+/);
     if (words.length <= 1000) {
       setContent(e.target.value);
-      console.log('content changed: ', e.target.value); 
     }
   };
 

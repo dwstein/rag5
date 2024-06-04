@@ -36,12 +36,12 @@ const Convo = () => {
     }
   }, [conversationId]);
 
-  const handleNewMessage = (newMessage) => {
-    setMessages((prevMessages) => {
-      const updatedMessages = [...prevMessages, newMessage];
-      console.log('Updated messages:', updatedMessages);
-      return updatedMessages;
-    });
+  const handleNewMessage = (newMessage, llmResponse) => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: Date.now(), content: newMessage, role: 'user' },
+      { id: Date.now() + 1, content: llmResponse, role: 'assistant' },
+    ]);
   };
 
 
