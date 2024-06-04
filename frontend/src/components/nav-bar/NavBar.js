@@ -5,17 +5,17 @@ import { Link } from 'react-router-dom';
 import { isAuthenticated, logout } from '../../auth/auth';
 import LoggedInAs from './LoggedInAs';
 import logo from '../../../public/assets/rag5.png';
-import Login from './Login';
-import Signup from './Signup'; // Import the Signup component
+import Login from './Login';  // occatinoally this pops up as an error for './Login'
+import Signup from './Signup'; 
 
 const NavBar = () => {
   const [isActive, setIsActive] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false); // State for showing signup form
+  const [showSignup, setShowSignup] = useState(false); 
 
   const handleLogout = () => {
     logout();
-    window.location.reload(); // Refresh the page to update the UI
+    window.location.reload(); 
   };
 
   const toggleBurgerMenu = () => {
