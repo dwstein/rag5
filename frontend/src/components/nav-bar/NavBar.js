@@ -52,8 +52,8 @@ const NavBar = () => {
   };
 
 
-  console.log("showLogin state:", showLogin);
-  console.log("showSignup state:", showSignup);
+  // console.log("showLogin state:", showLogin);
+  // console.log("showSignup state:", showSignup);
 
   return (
     <>

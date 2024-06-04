@@ -27,19 +27,19 @@ export const login = async (email, password) => {
 
 export const signup = async (email, password) => {
   try {
-    console.log('Signup request: ', email, password);
+    // console.log('Signup request: ', email, password);
     const response = await axios.post('/auth/register', {
       email,
       password,
     });
-    console.log('Signup response:', response.data);
+    // console.log('Signup response:', response.data);
 
     const access_token = await login(email, password);
-    console.log('Login response token: ', access_token);
+    // console.log('Login response token: ', access_token);
   
     return access_token;
   } catch (error) {
-    console.log('Signup error:', error.response ? error.response.data : error.message);
+    // console.log('Signup error:', error.response ? error.response.data : error.message);
     console.error('Signup error:', error);
     throw error;
   }
@@ -52,7 +52,7 @@ export const logout = () => {
 
 export const getCurrentUser = async () => {
   const token = localStorage.getItem('token');
-  console.log('Current user token:', token);
+  // console.log('Current user token:', token);
   if (!token) {
     console.error('No token found in local storage');
     return null;
@@ -62,7 +62,7 @@ export const getCurrentUser = async () => {
     const response = await axios.get('/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log('Current user response:', response.data);
+    // console.log('Current user response:', response.data);
     return response.data;
   } catch (error) {
     console.error('Get current user error:', error.response ? error.response.data : error.message);
