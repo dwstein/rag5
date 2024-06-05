@@ -21,7 +21,7 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/conversations/:conversationId" element={<ConvoWrapper />} />
+            <Route path="/conversations/:conversationId" element={<Convo />} />
           </Routes>
         </div>
       </ConversationProvider>
@@ -31,16 +31,11 @@ function App() {
 
 const Home = () => (
   <>
-    {/* <LoggedInAs /> */}
     <Convo />
     <HealthCheck />
     <SafeMessages />
   </>
 );
 
-const ConvoWrapper = () => {
-  const { conversationId } = useParams();
-  return <Convo conversationId={conversationId} />;
-};
 
 export default App;

@@ -16,20 +16,22 @@ export const ConversationProvider = ({ children }) => {
 
   useEffect(() => {
     const initializeConversation = async () => {
+      if (!isLoggedIn){
       try {
-        const response = await axios.post('/convo/conversations/new', {}, {
-          headers: isLoggedIn ? { Authorization: `Bearer ${user.token}` } : {}
-        });
+        const response = await axios.post('/convo/conversations/new', {});
         setConversationId(response.data.conversation_id);
       } catch (error) {
         console.error('Error creating new conversation:', error);
       }
-    };
-
-    if (!conversationId) {
-      initializeConversation();
     }
-  }, [isLoggedIn, user, conversationId]);
+  };
+
+   
+  if (!isLoggedIn && !conversationId) {
+    initializeConversation();
+  }
+}, [isLoggedIn, conversationId]);
+
   
   return (
     <ConversationContext.Provider value={{ conversationId, setConversationId, isLoggedIn, user }}>
