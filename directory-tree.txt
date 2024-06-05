@@ -67,23 +67,38 @@
 ├── docker-compose.yaml
 ├── frontend
 │   ├── Dockerfile
-│   ├── package-lock.json
 │   ├── package.json
 │   ├── public
 │   │   ├── assets
-│   │   │   └── rag5-logo.png
+│   │   │   ├── rag5-logo.png
+│   │   │   └── rag5.png
 │   │   └── index.html
 │   ├── src
 │   │   ├── App.js
-│   │   ├── Login.js
 │   │   ├── api.js
+│   │   ├── auth
+│   │   │   ├── AuthProvider.js
+│   │   │   └── auth.js
 │   │   ├── components
-│   │   │   ├── NavBar.js
-│   │   │   └── Register.js
+│   │   │   ├── conversation
+│   │   │   │   ├── Convo.js
+│   │   │   │   ├── Message.js
+│   │   │   │   ├── MessageInput.js
+│   │   │   │   └── MessageList.js
+│   │   │   ├── nav-bar
+│   │   │   │   ├── LoggedInAs.js
+│   │   │   │   ├── NavBar.js
+│   │   │   │   ├── Signup.js
+│   │   │   │   └── login.js
+│   │   │   └── test-components
+│   │   │       ├── HealthCheck.js
+│   │   │       └── SafeMessages.js
+│   │   ├── context
+│   │   │   └── ConversationContext.js
 │   │   ├── index.js
 │   │   └── pages
 │   └── webpack.config.js
 ├── langchain-test.py
 └── requirements.txt
 
-20 directories, 67 files
+25 directories, 77 files
