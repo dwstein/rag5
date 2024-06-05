@@ -1,7 +1,7 @@
 // frontend/scr/components/conversation/Convo.js
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
@@ -12,6 +12,7 @@ const Convo = () => {
   const { conversationId, setConversationId, isLoggedIn, user } = useConversation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -35,6 +36,12 @@ const Convo = () => {
       setLoading(false);
     }
   }, [conversationId]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
   const handleNewMessage = (newMessage, llmResponse) => {
     setMessages((prevMessages) => [
@@ -64,6 +71,7 @@ const Convo = () => {
         ) : (
           <MessageList messages={messages} />
         )}
+        <div ref={messagesEndRef} />
       </div>
       <MessageInput conversationId={conversationId} onMessageSent={handleNewMessage} />
     </div>
