@@ -22,7 +22,7 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/conversations/:conversationId" element={<ConvoWrapper />} />
+            <Route path="/conversations/:conversationId" element={<Convo />} />
           </Routes>
         </div>
       </ConversationProvider>
