@@ -8,6 +8,7 @@ import SafeMessages from "./components/test-components/SafeMessages";
 
 import LoggedInAs from "./components/nav-bar/LoggedInAs";
 
+
 import NavBar from "./components/nav-bar/NavBar";
 import { AuthProvider } from './auth/AuthProvider';
 import { ConversationProvider } from "./context/ConversationContext";
@@ -21,7 +22,7 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/conversations/:conversationId" element={<Convo />} />
+            <Route path="/conversations/:conversationId" element={<ConvoWrapper />} />
           </Routes>
         </div>
       </ConversationProvider>
