@@ -2,20 +2,21 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { isAuthenticated, logout } from '../../auth/auth';
+import { useAuth } from '../../auth/AuthProvider';
+// import { isAuthenticated, logout } from '../../auth/auth';
 import LoggedInAs from './LoggedInAs';
 import logo from '../../../public/assets/rag5.png';
 import Login from './Login';  // occatinoally this pops up as an error for './Login'
 import Signup from './Signup'; 
 
 const NavBar = () => {
+  const { isLoggedIn, logout } = useAuth();
   const [isActive, setIsActive] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false); 
 
   const handleLogout = () => {
     logout();
-    window.location.reload(); 
   };
 
   const toggleBurgerMenu = () => {
@@ -84,7 +85,7 @@ const NavBar = () => {
         </div>
 
         <div className="navbar-end">
-          {isAuthenticated() ? (
+          {isLoggedIn ? (
             <>
               <div className="navbar-item">
                 <LoggedInAs />

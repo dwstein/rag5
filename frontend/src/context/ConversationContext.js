@@ -11,15 +11,14 @@ export const useConversation = () => {
 };
 
 export const ConversationProvider = ({ children }) => {
-  const { isLoggedIn, user, token } = useAuth(); // Access authentication state and user info
+  const { isLoggedIn, user } = useAuth();
   const [conversationId, setConversationId] = useState(null);
 
   useEffect(() => {
     const initializeConversation = async () => {
       try {
-        // Create a new conversation when the user first arrives
         const response = await axios.post('/convo/conversations/new', {}, {
-          headers: isLoggedIn ? { Authorization: `Bearer ${token}` } : {}
+          headers: isLoggedIn ? { Authorization: `Bearer ${user.token}` } : {}
         });
         setConversationId(response.data.conversation_id);
       } catch (error) {
@@ -30,7 +29,7 @@ export const ConversationProvider = ({ children }) => {
     if (!conversationId) {
       initializeConversation();
     }
-  }, [isLoggedIn, token, conversationId]);
+  }, [isLoggedIn, user, conversationId]);
   
   return (
     <ConversationContext.Provider value={{ conversationId, setConversationId, isLoggedIn, user }}>
