@@ -12,7 +12,6 @@ export const useConversation = () => {
 
 export const ConversationProvider = ({ children }) => {
   const { isLoggedIn, user } = useAuth();
-  const { isLoggedIn, user } = useAuth();
   const [conversationId, setConversationId] = useState(null);
 
   useEffect(() => {
