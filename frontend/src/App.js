@@ -1,17 +1,17 @@
 // frontend/src/App.js
 
 import React from "react";
-import { Route, Routes  } from 'react-router-dom';
-
-import HealthCheck from "./components/test-components/HealthCheck";
-import SafeMessages from "./components/test-components/SafeMessages";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { AuthProvider, useAuth } from './auth/AuthProvider';
 import { ConversationProvider } from "./context/ConversationContext";
 
 import NavBar from "./components/nav-bar/NavBar";
-import Convo from "./components/conversation/Convo";
+import ConversationView from "./components/conversation/ConversationView";
 import NotLoggedIn from "./components/NotLoggedIn";
+import HealthCheck from "./components/test-components/HealthCheck";
+import SafeMessages from "./components/test-components/SafeMessages";
+
 
 
 function App() {
@@ -36,12 +36,12 @@ function App() {
 
 const HomePage = () => {
   const { isLoggedIn } = useAuth();
-  return isLoggedIn ? <Convo /> : <NotLoggedIn />;
+  return isLoggedIn ? <ConversationView /> : <NotLoggedIn />;
 };
 
 const ConvoPage = () => {
   const { isLoggedIn } = useAuth();
-  return isLoggedIn ? <Convo /> : <NotLoggedIn />;
+  return isLoggedIn ? <ConversationView /> : <NotLoggedIn />;
 };
 
 

@@ -120,6 +120,15 @@ async def delete_conversation(conversation_id: UUID4, session: AsyncSession = De
 
 
 
+@router.get("/conversations/{user_id}", response_model=List[ConversationResponse])
+async def read_user_conversations(user_id: UUID4, session: AsyncSession = Depends(get_async_session)):
+    conversations = await session.execute(select(Conversation).where(Conversation.user_id == user_id).order_by(Conversation.created_at.desc()))
+    return conversations.scalars().all()
+
+
+
+
+
 # MESSAGE ENDPOINTS
 
 # from langchain_stuff.lanchain_services.simple_convo import hajoke_chain
