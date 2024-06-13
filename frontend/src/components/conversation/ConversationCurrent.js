@@ -1,14 +1,19 @@
-// frontend/scr/components/conversation/Convo.js
+// frontend/scr/components/conversation/ConversationCurrent.js
+
+// renters current conversation messgas and provides input field
+// curret user from ConversationContext
+// acts as the main interface for displaying and 
+// interacting with the current conversation, fetching and 
+// rendering messages, and handling user input for new messages.
 
 
 import React, { useState, useEffect, useRef } from 'react';
-// import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import { useConversation } from '../../context/ConversationContext';
 
-const Convo = () => {
+const ConversationCurrent = () => {
   const [messages, setMessages] = useState([]);
   const { conversationId, setConversationId, isLoggedIn, user } = useConversation();
   const [loading, setLoading] = useState(true);
@@ -80,4 +85,4 @@ const Convo = () => {
   );
 };
 
-export default Convo;
+export default ConversationCurrent;

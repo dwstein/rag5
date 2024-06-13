@@ -4,13 +4,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useConversation } from '../../context/ConversationContext';
 
-const MessageInput = ({ conversationId, onMessageSent }) => {
+const MessageInput = ({ onMessageSent }) => {
   const [content, setContent] = useState('');
-  const { isLoggedIn, token } = useConversation();
+  const { isLoggedIn, conversationId, createNewConversation } = useConversation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim()) return;
+
+    if (!conversationId) {
+      // If there's no existing conversation, create a new one
+      await createNewConversation();
+    }
+
 
     try {
       const response = await axios.post(`/convo/conversations/${conversationId}/messages/`, { content });

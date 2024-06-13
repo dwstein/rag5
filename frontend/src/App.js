@@ -7,7 +7,7 @@ import { AuthProvider, useAuth } from './auth/AuthProvider';
 import { ConversationProvider } from "./context/ConversationContext";
 
 import NavBar from "./components/nav-bar/NavBar";
-import ConversationView from "./components/conversation/ConversationView";
+import ConversationParent from "./components/conversation/ConversationParent";
 import NotLoggedIn from "./components/NotLoggedIn";
 import HealthCheck from "./components/test-components/HealthCheck";
 import SafeMessages from "./components/test-components/SafeMessages";
@@ -36,12 +36,12 @@ function App() {
 
 const HomePage = () => {
   const { isLoggedIn } = useAuth();
-  return isLoggedIn ? <ConversationView /> : <NotLoggedIn />;
+  return isLoggedIn ? <ConversationParent /> : <NotLoggedIn />;
 };
 
 const ConvoPage = () => {
   const { isLoggedIn } = useAuth();
-  return isLoggedIn ? <ConversationView /> : <NotLoggedIn />;
+  return isLoggedIn ? <ConversationParent /> : <NotLoggedIn />;
 };
 
 
