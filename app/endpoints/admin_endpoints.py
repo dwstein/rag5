@@ -2,9 +2,10 @@
 
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from models.db import get_async_session_endpoints, User
+from models.db import Conversation, get_async_session_endpoints, User
 from models.user_schemas import UserResponseModel, UserCreate  # Import the Pydantic model
 from sqlalchemy import select
+from datetime import datetime
 
 router = APIRouter()
 
@@ -29,3 +30,20 @@ async def create_user(user_data: UserCreate):
     finally:
         await session.close()
 
+
+@router.get("/conversations")
+async def list_conversations(session: AsyncSession = Depends(get_async_session_endpoints)):
+    async with session as db_session:
+        result = await db_session.execute(select(Conversation))
+        conversations = result.scalars().all()
+
+    conversation_list = []
+    for conversation in conversations:
+        conversation_data = {
+            "conversation_id": conversation.id,
+            "user_id": conversation.user_id,
+            "date_created": conversation.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        }
+        conversation_list.append(conversation_data)
+
+    return conversation_list
