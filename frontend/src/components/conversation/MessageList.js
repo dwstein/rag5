@@ -2,17 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { useConversation } from '../../context/ConversationContext';
 import Message from './Message';
 
-const MessageList = ({ currentConversationId }) => {
+const MessageList = () => {
+  const { conversationId } = useConversation();
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        if (currentConversationId) {
-          const response = await axios.get(`/convo/conversations/${currentConversationId}/messages/`);
+        if (conversationId) {
+          const response = await axios.get(`/convo/conversations/${conversationId}/messages/`);
           setMessages(response.data);
         } else {
           setMessages([]);
@@ -23,7 +24,7 @@ const MessageList = ({ currentConversationId }) => {
     };
 
     fetchMessages();
-  }, [currentConversationId]);
+  }, [conversationId]);
 
   return (
     <div className="message-list">

@@ -1,6 +1,6 @@
 // frontend/scr/components/conversation/ConversationCurrent.js
 
-// renters current conversation messgas and provides input field
+// renders current conversation messgas and provides input field
 // curret user from ConversationContext
 // acts as the main interface for displaying and 
 // interacting with the current conversation, fetching and 
@@ -14,73 +14,18 @@ import MessageInput from './MessageInput';
 import { useConversation } from '../../context/ConversationContext';
 
 const ConversationCurrent = () => {
-  const [messages, setMessages] = useState([]);
-  const { conversationId, setConversationId, isLoggedIn, user } = useConversation();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { conversationId } = useConversation();
   const messagesEndRef = useRef(null);
   
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const response = await axios.get(`convo/conversations/${conversationId}/messages/`);
-        setMessages(response.data);
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          setMessages([]); // No messages found, set to empty array
-        } else {
-          setError('Error fetching messages');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (conversationId) {
-      fetchMessages();
-    } else {
-      setLoading(false);
-    }
-  }, [conversationId]);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
-
-  const handleNewMessage = (newMessage, llmResponse) => {
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { id: Date.now(), content: newMessage, role: 'user' },
-      { id: Date.now() + 1, content: llmResponse, role: 'assistant' },
-    ]);
-  };
-
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-
 
   return (
     <div className="box" style={{ height: '80vh', display: 'flex', flexDirection: 'column' }}>
       <h1 className="title">Conversation {conversationId}</h1>
       <div className="conversation" style={{ flex: 1, overflowY: 'auto' }}>
-        {messages.length === 0 ? (
-          <div className="notification is-info">What can I do for you?</div>
-        ) : (
-          <MessageList messages={messages} />
-        )}
+          <MessageList />
         <div ref={messagesEndRef} />
       </div>
-      <MessageInput conversationId={conversationId} onMessageSent={handleNewMessage} />
+      <MessageInput conversationId={conversationId} />
     </div>
   );
 };

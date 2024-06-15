@@ -5,9 +5,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../auth/AuthProvider';
+import { useConversation } from '../../context/ConversationContext';
+
 
 const ConversationList = () => {
   const { user, isLoggedIn } = useAuth();
+  const { setConversationId } = useConversation();
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,6 +35,10 @@ const ConversationList = () => {
     fetchConversations();
   }, [isLoggedIn, user]);
 
+  const handleConversationClick = (conversationId) => {
+    setConversationId(conversationId);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -49,7 +56,7 @@ const ConversationList = () => {
       <h2>Your Conversations</h2>
       <ul>
         {conversations.map((conversation) => (
-          <li key={conversation.id}>
+          <li key={conversation.id} onClick={() => handleConversationClick(conversation.id)}>
             {conversation.title || 'Untitled Conversation'}
           </li>
         ))}
