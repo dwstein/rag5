@@ -13,7 +13,7 @@ class ConversationCreate(BaseModel):
 
 class ConversationResponse(BaseModel):
     id: UUID4
-    title: str
+    title: str | None = None
     user_id: UUID4
     created_at: datetime
     updated_at: datetime

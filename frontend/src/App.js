@@ -25,10 +25,10 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/conversations/:conversationId" element={<ConvoPage />} />
           </Routes>
-          <HealthCheck />
-          <SafeMessages />
         </div>
       </ConversationProvider>
+          <HealthCheck />
+          <SafeMessages />
     </AuthProvider>
   );
 }

@@ -2,53 +2,37 @@
 
 // frontend/src/components/conversation/ConversationList.js
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useConversation } from '../../context/ConversationContext';
+import { useAuth } from '../../auth/AuthProvider';
 
 const ConversationList = () => {
+  const { user, isLoggedIn } = useAuth();
   const [conversations, setConversations] = useState([]);
-  const [currentConversationId, setCurrentConversationId] = useState(null);
-  const { user, createNewConversation } = useConversation();
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (user) {
-      fetchConversations();
-    }
-  }, [user]);
+    const fetchConversations = async () => {
+      if (!isLoggedIn || !user) {
+        setLoading(false);
+        return;
+      }
 
-  const fetchConversations = async () => {
-    try {
-      if (user && isValidUUID(user.id)) {
-        const response = await axios.get(`/convo/conversations/${user.id}`);
+      try {
+        const response = await axios.get(`/convo/conversationslist/${user.id}`);
         setConversations(response.data);
-      } else {
-        setConversations([]);
-      }
-    } catch (error) {
-      if (error.response && error.response.status !== 404) {
+      } catch (error) {
         setError('Error fetching conversations');
-      } else {
-        setConversations([]);
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
+    fetchConversations();
+  }, [isLoggedIn, user]);
 
-  const handleConversationClick = (conversationId) => {
-    setCurrentConversationId(conversationId);
-  };
-
-  const handleCreateNewConversation = async () => {
-    await createNewConversation();
-  };
-
-  if (isLoading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
@@ -56,37 +40,22 @@ const ConversationList = () => {
     return <div>{error}</div>;
   }
 
-
+  if (!conversations.length) {
+    return <div>No conversations found.</div>;
+  }
 
   return (
-    <div className="conversation-list">
-    <h2 className="title is-4">Conversations</h2>
-    <div className="buttons">
-      <button className="button is-primary" onClick={handleCreateNewConversation}>
-        New Conversation
-      </button>
-    </div>
-    {conversations.length === 0 ? (
-      <p>You don't have any conversations yet. Start a new conversation!</p>
-    ) : (
-      <ul className="menu-list">
+    <div>
+      <h2>Your Conversations</h2>
+      <ul>
         {conversations.map((conversation) => (
-          <li
-            key={conversation.id}
-            className={`conversation-item ${
-              conversation.id === currentConversationId ? 'is-active' : ''
-            }`}
-            onClick={() => handleConversationClick(conversation.id)}
-          >
-            <Link to={`/conversations/${conversation.id}`}>
-              {conversation.title}
-            </Link>
+          <li key={conversation.id}>
+            {conversation.title || 'Untitled Conversation'}
           </li>
         ))}
       </ul>
-    )}
-  </div>
-);
+    </div>
+  );
 };
 
 export default ConversationList;
