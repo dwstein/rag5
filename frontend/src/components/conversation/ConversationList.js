@@ -52,17 +52,26 @@ const ConversationList = () => {
   }
 
   return (
-    <div>
-      <h2>Your Conversations</h2>
-      <ul>
-        {conversations.map((conversation) => (
-          <li key={conversation.id} onClick={() => handleConversationClick(conversation.id)}>
-            {conversation.title || 'Untitled Conversation'}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    <div className="box">
+    <h2 className="title is-4">Conversations</h2>
+    <ul>
+      {conversations.map((conversation) => (
+        <li 
+          key={conversation.id} 
+          onClick={() => handleConversationClick(conversation.id)}
+          className="conversation-item p-2 mb-2"
+          style={{ 
+            cursor: 'pointer', 
+            fontSize: '0.875rem' // Smaller font size
+          }}
+        >
+          {conversation.title || 'Untitled Conversation'}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 };
+
 
 export default ConversationList;
