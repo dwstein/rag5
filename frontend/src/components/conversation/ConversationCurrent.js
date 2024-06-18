@@ -1,10 +1,7 @@
 // frontend/scr/components/conversation/ConversationCurrent.js
 
-// renders current conversation messgas and provides input field
-// curret user from ConversationContext
-// acts as the main interface for displaying and 
-// interacting with the current conversation, fetching and 
-// rendering messages, and handling user input for new messages.
+// home of the current converstaion
+// houses Message list and message input
 
 
 import React, { useState, useEffect, useRef } from 'react';
