@@ -99,7 +99,7 @@ async def create_conversation(
     db: AsyncSession = Depends(get_async_session),
     current_user: User = Depends(current_active_user)
 ):
-    if not current_user:
+    if current_user.id != conversation_data.user_id:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
     title = conversation_data.title if conversation_data.title else get_default_title()

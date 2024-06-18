@@ -18,13 +18,8 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 
 from models.db import User, get_user_db
 
-# Create a logger instance
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+
+logger=logging.getLogger(__name__)
 
 
 dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
@@ -35,7 +30,6 @@ load_dotenv(dotenv_path=dotenv_path)
 SECRET = os.getenv("SECRET_KEY")
 # print(f"SECRET is {SECRET}")
 
-logger=logging.getLogger(__name__)
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -63,6 +57,31 @@ async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db
     # print(f"get_user_manager: {user_db}")
     yield UserManager(user_db)
 
+
+    """
+    So, I'm trying to understand the FastAPIUsers dependency injection.
+    
+    bearer_transport -> 
+    auth_backend -> 
+    fastapi_users -> 
+    current_active_user -> endpoint
+    
+    
+    bearer_transport is a BearerTransport instance that is used 
+    to actaully get the token and validate it.  It extracts the token
+    from the Authorization header. 
+    * (AuthenticationBackend) The token is passed to the JWT strategy to validate it.  
+    * If the tokenn is valied, the user ID is extracted from the tokne.
+    
+    fastapi_users.current_user method uses the extracted user ID
+    to fetch teh user from the database.
+    * it checks teh uer's status (since active=True)
+    * if the user is active, the user object is returned, otherwise
+    an authenticaiton error is raised.
+    
+    current_active_user is a dependency that is used in the endpoint
+    
+    """
 
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
