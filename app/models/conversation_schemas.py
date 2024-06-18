@@ -4,12 +4,13 @@
 from pydantic import BaseModel, UUID4
 from typing import Optional
 
-from fastapi_users import schemas
+# from fastapi_users import schemas
 from datetime import datetime
 
 
 class ConversationCreate(BaseModel):
     title: str
+    user_id: UUID4
 
 class ConversationResponse(BaseModel):
     id: UUID4

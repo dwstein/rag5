@@ -11,6 +11,8 @@ from fastapi import (
     Request, 
     Response
 )
+from datetime import datetime
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 import logging
@@ -34,63 +36,79 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-
+"""
+Unauthenticated User: create_new_conversation() creates a conversation 
+without a user ID and sets a cookie with the conversation ID.
+Authenticated User: create_conversation() creates a conversation 
+linked to the authenticated user.
+ 
+"""
 
 
 
 # CONVERSATION ENDPOINTS (MESSAGES BELOW)
 
-@router.post("/conversations/new")
-async def create_new_conversation(
-    response: Response,
-    db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_user_optional)
-):
-    conversation_id = uuid.uuid4()
+def get_default_title():
+    now = datetime.now()
+    return f"Convo from: {now.strftime('%m/%d/%y %H:%M')}"
+
+# # creates a conversation without a user ID and sets a cookie with the conversation ID.
+# @router.post("/conversations/new")
+# async def create_new_conversation(
+#     response: Response,
+#     conversation_data: ConversationCreate,
+#     db: AsyncSession = Depends(get_async_session),
+#     current_user: User = Depends(get_current_user_optional)
+# ):
+#     conversation_id = uuid.uuid4()
     
-    if current_user:
-        # If the user is authenticated, associate the user_id with the conversation
-        conversation = Conversation(id=conversation_id, user_id=current_user.id)
-    else:
-        # If the user is not authenticated, create the conversation without user_id
-        conversation = Conversation(id=conversation_id)
+#     if current_user:
+#         # If the user is authenticated, associate the user_id with the conversation
+#         user_id = current_user.id
+#     else:
+#         # If the user is not authenticated, create the conversation without user_id
+#         raise HTTPException(status_code=401, detail="Not authenticated")
+
+#     title = conversation_data.title if conversation_data.title else get_default_title()
     
-    db.add(conversation)
-    await db.commit()
-    await db.refresh(conversation)
+#     conversation = Conversation(
+#         id=conversation_id,
+#         title=title,
+#         user_id=user_id
+#     )
+
+#     db.add(conversation)
+#     await db.commit()
+#     await db.refresh(conversation)
     
-    # Store the conversation_id in a cookie
-    response.set_cookie(key="conversation_id", value=conversation_id)
+#     # Store the conversation_id in a cookie
+#     response.set_cookie(key="conversation_id", value=str(conversation_id))
     
-    return {"conversation_id": conversation_id}
+#     return {"conversation_id": conversation_id}
 
 
 
 
 
-
+# creates a conversation linked to the authenticated user.
 @router.post("/conversations")
 async def create_conversation(
     conversation_data: ConversationCreate, 
-    request: Request,
-    response: Response,
+    # request: Request,
+    # response: Response,
     db: AsyncSession = Depends(get_async_session),
     current_user: User = Depends(current_active_user)
 ):
-    if current_user:
-         # logged-in user
-         conversation = Conversation(
-            title=conversation_data.title,
-            user_id=current_user.id
-        )
-    else:
-        # non-logged-in user
-        conversation_id = str(uuid.uuid4())
-        conversation = Conversation(
-            id=conversation_id,
-            title=conversation_data.title
-        )
-        response.set_cookie("conversation_id", value=conversation_id)
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    title = conversation_data.title if conversation_data.title else get_default_title()
+    
+    conversation = Conversation(
+        id = uuid.uuid4(),
+        title = title,
+        user_id = current_user.id
+    )
     
     db.add(conversation)
     await db.commit()

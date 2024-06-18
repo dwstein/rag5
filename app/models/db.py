@@ -70,7 +70,13 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
         
-        
+
+
+    """
+     get_async_session_endpoints(): Another function to provide 
+     an asynchronous session, 
+     seemingly redundant with get_async_session().
+    """
 @asynccontextmanager       
 async def get_async_session_endpoints() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
