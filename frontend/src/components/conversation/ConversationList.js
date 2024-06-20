@@ -18,20 +18,21 @@ const ConversationList = () => {
   console.log('conversationsList rendered before user.');
   console.log('user:', user);
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      try {
-        console.log('Fetching conversations for user:', user.id);
-        const response = await axios.get(`/convo/conversationslist/${user.id}`);
-        setConversations(response.data);
-      } catch (error) {
-        console.error('Error fetching conversations:', error);
-        setError('Error fetching conversations');
-      } finally {
-        setLoadingConversations(false);
-      }
-    };
+  const fetchConversations = async () => {
+    try {
+      console.log('Fetching conversations for user:', user.id);
+      const response = await axios.get(`/convo/conversationslist/${user.id}`);
+      setConversations(response.data);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+      setError('Error fetching conversations');
+    } finally {
+      setLoadingConversations(false);
+    }
 
+  };
+
+  useEffect(() => {
     if (!loading && user) {
       fetchConversations();
     }
@@ -71,7 +72,7 @@ const ConversationList = () => {
      
       const response = await createNewConversation(user.id, title, token);
       if (response) {
-        setConversations([...conversations, response.data]);
+        await fetchConversations();
       }
     }
   };
