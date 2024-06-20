@@ -8,6 +8,10 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated());
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [loading, setLoading] = useState(true);
+
+  console.log('Token in AuthProvider:', token);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -15,6 +19,7 @@ export const AuthProvider = ({ children }) => {
         const currentUser = await getCurrentUser();
         setUser(currentUser);
       }
+      setLoading(false);
     };
 
     fetchUser();
@@ -53,7 +58,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout, token, loading }}>
       {children}
     </AuthContext.Provider>
   );

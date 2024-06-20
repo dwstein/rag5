@@ -5,16 +5,23 @@
 // ConversationCurrnt holds the messages for the current conversation
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ConversationList from './ConversationList';
 import ConversationCurrent from './ConversationCurrent';
+import { useAuth } from '../../auth/AuthProvider';
 
 const ConversationParent = () => {
   const [isMenuActive, setIsMenuActive] = useState(false);
+  const { isLoggedIn } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuActive(!isMenuActive);
   };
+
+  // useEffect(() => {
+  //   // This effect will run whenever isLoggedIn changes, triggering a re-render
+  //   console.log("Authentication state changed:", isLoggedIn);
+  // }, [isLoggedIn]);
 
   return (
     <div className="columns is-gapless">
