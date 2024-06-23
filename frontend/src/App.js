@@ -3,7 +3,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { AuthProvider, useAuth } from './auth/AuthProvider';
+import { useAuth } from './auth/AuthProvider';
 import { ConversationProvider } from "./context/ConversationContext";
 
 import NavBar from "./components/nav-bar/NavBar";
@@ -17,20 +17,17 @@ import SafeMessages from "./components/test-components/SafeMessages";
 function App() {
 
   return (
-    <AuthProvider>
-      <ConversationProvider>
         <div className="container">
+        <ConversationProvider>
           <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/conversations/:conversationId" element={<ConvoPage />} />
-          </Routes>
-        </div>
-      </ConversationProvider>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+            </Routes>
+       </ConversationProvider>
           <HealthCheck />
-          <SafeMessages />
-    </AuthProvider>
-  );
+          <SafeMessages /> 
+       </div>
+  )
 }
 
 
@@ -38,12 +35,6 @@ const HomePage = () => {
   const { isLoggedIn } = useAuth();
   return isLoggedIn ? <ConversationParent /> : <NotLoggedIn />;
 };
-
-const ConvoPage = () => {
-  const { isLoggedIn } = useAuth();
-  return isLoggedIn ? <ConversationParent /> : <NotLoggedIn />;
-};
-
 
 
 

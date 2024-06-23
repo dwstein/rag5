@@ -13,17 +13,17 @@ export const AuthProvider = ({ children }) => {
 
   console.log('Token in AuthProvider:', token);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (isLoggedIn) {
-        const currentUser = await getCurrentUser();
-        setUser(currentUser);
-      }
-      setLoading(false);
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     if (isLoggedIn) {
+  //       const currentUser = await getCurrentUser();
+  //       setUser(currentUser);
+  //     }
+  //     setLoading(false);
+  //   };
 
-    fetchUser();
-  }, [isLoggedIn]);
+  //   fetchUser();
+  // }, [isLoggedIn]);
 
   const login = async (email, password) => {
     try {
