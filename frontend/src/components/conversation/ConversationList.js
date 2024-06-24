@@ -1,7 +1,5 @@
 // frontend/src/components/conversation/ConversationList.js
 
-// frontend/src/components/conversation/ConversationList.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../auth/AuthProvider';
@@ -87,7 +85,17 @@ const ConversationList = () => {
   }
 
   if (!conversations.length) {
-    return <div>No conversations found for user: {user.id}</div>;
+    return (
+      <div className="notification is-info">
+        <div>
+          No conversations found for user: {user.email}
+        </div>
+        <div>
+          Send your first message to create a new conversation.
+        </div>
+      </div>
+
+    );
   }
 
   const handleConversationClick = (conversationId) => {
