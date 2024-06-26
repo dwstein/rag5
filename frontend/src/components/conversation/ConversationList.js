@@ -13,36 +13,52 @@ const ConversationList = () => {
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log('conversationsList rendered before user.');
-  console.log('user:', user);
+  // console.log('loading (ConversationList):', loading);
+  // console.log('user (ConversationList):', user);
 
+
+  useEffect(() => {
+    if (user) {
+      fetchConversations();
+    }
+  }, [user, setConversationId]);
+  
   const fetchConversations = async () => {
     try {
       console.log('Fetching conversations for user:', user.id);
       const response = await axios.get(`/convo/conversationslist/${user.id}`);
       setConversations(response.data);
+
+      if (response.data.length === 0) {
+        const title = "Convo date: " + new Date().toLocaleString();
+        // console.log(
+        //   'title: (fetchConversations)', title, '\n',
+        //   'userId: (fetchConversations)', user.id, '\n',
+  
+        // )
+        
+        const newConversation = await createNewConversation(user.id, title, token);
+        if (newConversation) {
+          setConversations([newConversation]);
+          setConversationId(newConversation.id);
+        }
+        
+      }
     } catch (error) {
       console.error('Error fetching conversations:', error);
       setError('Error fetching conversations');
     } finally {
       setLoadingConversations(false);
     }
-
   };
 
-  useEffect(() => {
-    if (!loading && user) {
-      fetchConversations();
-    }
-  }, [loading, user]);
-
-
-  const createNewConversation = async (userId, title, tokenArg) => {
-    console.log('createNewConversation called from createNewConversation in ConversationList.js');
-    console.log('token from createNewConversation:', tokenArg);
-    console.log('userId from createNewConversation:', userId);
-    console.log('title from createNewConversation:', title);
+  const createNewConversation = async (userId, title) => {
+    // console.log('createNewConversation called from createNewConversation in ConversationList.js');
+    // console.log('token from createNewConversation:', tokenArg);
+    // console.log('userId from createNewConversation:', userId);
+    // console.log('title from createNewConversation:', title);
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         '/convo/conversations',
         { title, user_id: userId },
@@ -62,13 +78,13 @@ const ConversationList = () => {
 
 
   const handleNewConversation = async () => {
-    console.log('create new user button clicked');
-    console.log('token from handleNewConversation:', token);
+    // console.log('create new user button clicked');
+    // console.log('token from handleNewConversation:', token);
     const title = "Convo date: " + new Date().toLocaleString();
     if (title) {
       // const token = token; // Replace with the actual token if needed
      
-      const response = await createNewConversation(user.id, title, token);
+      const response = await createNewConversation(user.id, title);
       if (response) {
         await fetchConversations();
       }

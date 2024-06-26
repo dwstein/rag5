@@ -18,6 +18,8 @@ def setup_routes(app: FastAPI) -> FastAPI:
     app.include_router(fastapi_users.get_reset_password_router(), prefix="/auth", tags=["auth"])
     app.include_router(fastapi_users.get_verify_router(UserRead), prefix="/auth", tags=["auth"])
     app.include_router(fastapi_users.get_users_router(UserRead, UserUpdate), prefix="/users", tags=["users"])
+    # app.include_router(fastapi_users.get_verify_router(UserRead), prefix="/auth/verify", tags=["auth"])
+
 
     # dev admin
     app.include_router(admin_router, prefix="/admin", tags=["admin"])

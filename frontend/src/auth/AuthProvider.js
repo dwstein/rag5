@@ -1,17 +1,29 @@
 // frontend/src/auth/AuthProvider.js
 
-import React, { createContext, useState, useEffect, useContext } from 'react';
+/* 
+Authenticaiton handled by fast-api users
+for conversations and routes not part of fastapi-users
+need to grab the token from local storage
+
+
+*/
+
+
+import React, { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import { getCurrentUser, isAuthenticated, login as authLogin, logout as authLogout, signup as authSignup } from './auth';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  // const [token, setToken] = useState(null);
   // const [loading, setLoading] = useState(true);
 
-  console.log('Token in AuthProvider:', token);
+  console.log('AuthProvider: isLoggedIn:', isLoggedIn);
+
+  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,17 +60,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
-
-
   const logout = () => {
     authLogout();
     setIsLoggedIn(false);
     setUser(null);
   };
 
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout, token }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

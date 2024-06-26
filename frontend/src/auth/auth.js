@@ -16,7 +16,10 @@ export const login = async (email, password) => {
       },
     });
     const { access_token } = response.data;
+    // console.log('Login response:', response.data);
+    // console.log('access_token (auth.js):', access_token);
     localStorage.setItem('token', access_token);
+
     return access_token;
   } catch (error) {
     console.error('Login error:', error);
