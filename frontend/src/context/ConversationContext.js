@@ -1,4 +1,4 @@
-// frontend/src/context/ConversationContext.js
+// frontend/src/Convercontext/ConversationContext.js
 
 import React, { createContext, useContext, useState } from 'react';
 import axios from 'axios';
@@ -13,10 +13,11 @@ export const ConversationProvider = ({ children }) => {
   const [conversationId, setConversationId] = useState(null);
 
 
-  const createNewConversation = async (userID, titleArg, token) => {
+  const createNewConversation = async (userID, titleArg) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
-        '/convo/conversations/', 
+        '/convo/conversations', 
         { user_id: userID, title: titleArg },
         {
           headers: {

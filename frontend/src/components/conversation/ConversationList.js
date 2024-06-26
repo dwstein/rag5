@@ -8,7 +8,7 @@ import { useConversation } from '../../context/ConversationContext';
 
 const ConversationList = () => {
   const { user, loading, token } = useAuth();
-  const { setConversationId } = useConversation();
+  const { setConversationId, createNewConversation } = useConversation();
   const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [error, setError] = useState(null);
@@ -52,29 +52,7 @@ const ConversationList = () => {
     }
   };
 
-  const createNewConversation = async (userId, title) => {
-    // console.log('createNewConversation called from createNewConversation in ConversationList.js');
-    // console.log('token from createNewConversation:', tokenArg);
-    // console.log('userId from createNewConversation:', userId);
-    // console.log('title from createNewConversation:', title);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        '/convo/conversations',
-        { title, user_id: userId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.error('Error creating new conversation:', error);
-      setError('Error creating new conversation');
-      return null;
-    }
-  };
+
 
 
   const handleNewConversation = async () => {
