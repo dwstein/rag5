@@ -38,9 +38,11 @@ const ConversationList = () => {
         // )
         
         const newConversation = await createNewConversation(user.id, title, token);
+        console.log('newConversation if convo list = 0: (fetchConversations)', newConversation);
         if (newConversation) {
+          
           setConversations([newConversation]);
-          setConversationId(newConversation.id);
+          setConversationId(newConversation.data.id);
         }
         
       }
@@ -56,6 +58,7 @@ const ConversationList = () => {
 
 
   const handleNewConversation = async () => {
+    
     // console.log('create new user button clicked');
     // console.log('token from handleNewConversation:', token);
     const title = "Convo date: " + new Date().toLocaleString();
@@ -63,6 +66,10 @@ const ConversationList = () => {
       // const token = token; // Replace with the actual token if needed
      
       const response = await createNewConversation(user.id, title);
+      console.log('newConversation: (fetchConversations)', response);
+      console.log('newConversation.data.id: (fetchConversations)', response.data.id);
+      setConversations([response]);
+      setConversationId(response.data.id);
       if (response) {
         await fetchConversations();
       }
