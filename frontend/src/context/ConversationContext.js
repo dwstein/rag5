@@ -12,7 +12,7 @@ export const useConversation = () => {
 export const ConversationProvider = ({ children }) => {
   const [conversationId, setConversationId] = useState(null);
   const [conversationTitle, setConversationTitle] = useState(null);
-
+  const [conversations, setConversations] = useState([]);
 
   const createNewConversation = async (userID, titleArg) => {
     try {
@@ -37,11 +37,40 @@ export const ConversationProvider = ({ children }) => {
     }
   };
 
+  const updateConversationTitle = async (title) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(
+        `/convo/conversations/${conversationId}`,
+        { title: title },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setConversationTitle(response.data.title);
+      return response;
+    } catch (error) {
+      console.error('Error updating conversation title:', error);
+      return null;
+    }
+  };
 
 
 
   return (
-    <ConversationContext.Provider value={{ conversationId, conversationTitle, setConversationId, setConversationTitle, createNewConversation }}>
+    <ConversationContext.Provider value={{ 
+      conversationId, 
+      conversationTitle, 
+      setConversationId, 
+      setConversationTitle, 
+      conversations,
+      setConversations,
+      createNewConversation, 
+      updateConversationTitle 
+      }}>
       {children}
     </ConversationContext.Provider>
   );

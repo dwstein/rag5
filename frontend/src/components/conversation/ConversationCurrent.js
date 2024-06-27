@@ -9,21 +9,23 @@ import axios from 'axios';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import { useConversation } from '../../context/ConversationContext';
+import ConvoTitle from './ConvoTitle';
+
 
 const ConversationCurrent = () => {
-  const { conversationId, conversationTitle } = useConversation();
-  const messagesEndRef = useRef(null);
+  const { conversationId } = useConversation();
+ 
+ 
 
   return (
     <div className="box" style={{ height: '80vh', display: 'flex', flexDirection: 'column' }}>
-      <h1 className="title">Conversation {conversationTitle}</h1>
+      <ConvoTitle />
       <div className="conversation" style={{ flex: 1, overflowY: 'auto' }}>
-          <MessageList />
-        <div ref={messagesEndRef} />
+        <MessageList />
       </div>
       <MessageInput conversationId={conversationId} />
     </div>
   );
-};
+}
 
 export default ConversationCurrent;

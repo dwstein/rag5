@@ -22,6 +22,8 @@ class ConversationResponse(BaseModel):
     class Config:
         orm_mode = True
         
+class ConversationUpdate(BaseModel):
+    title: Optional[str]
 
 class MessageCreate(BaseModel):
     content: str

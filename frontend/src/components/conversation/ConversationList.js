@@ -8,8 +8,8 @@ import { useConversation } from '../../context/ConversationContext';
 
 const ConversationList = () => {
   const { user, loading, token } = useAuth();
-  const { setConversationId, setConversationTitle, createNewConversation } = useConversation();
-  const [conversations, setConversations] = useState([]);
+  const { setConversationId, setConversationTitle, createNewConversation, conversations, setConversations } = useConversation();
+  // const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [error, setError] = useState(null);
 

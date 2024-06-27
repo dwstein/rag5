@@ -23,7 +23,8 @@ from models.conversation_schemas import (
     MessageResponse,
     SafeMessageResponse,
     ConversationCreate,
-    ConversationResponse
+    ConversationResponse,
+    ConversationUpdate
 )
 from models.users import current_active_user, get_current_user_optional, User
 from langchain_stuff.langchain_services.basic_chat import chat_with_history
@@ -137,11 +138,35 @@ async def delete_conversation(conversation_id: UUID4, session: AsyncSession = De
     return {"ok": True}
 
 
+@router.patch("/conversations/{conversation_id}", response_model=ConversationResponse)
+async def update_conversation(
+    conversation_id: UUID4,
+    conversation_data: ConversationUpdate,
+    session: AsyncSession = Depends(get_async_session),
+):
+    conversation = await session.get(Conversation, conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+
+    if conversation_data.title is not None:
+        conversation.title = conversation_data.title
+
+    session.add(conversation)
+    await session.commit()
+    await session.refresh(conversation)
+
+    return conversation
+
+
+
 
 @router.get("/conversationslist/{user_id}", response_model=List[ConversationResponse])
 async def read_user_conversations(user_id: UUID4, session: AsyncSession = Depends(get_async_session)):
     conversations = await session.execute(select(Conversation).where(Conversation.user_id == user_id).order_by(Conversation.created_at.desc()))
     return conversations.scalars().all()
+
+
+
 
 
 
