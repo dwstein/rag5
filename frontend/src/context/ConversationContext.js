@@ -11,6 +11,7 @@ export const useConversation = () => {
 
 export const ConversationProvider = ({ children }) => {
   const [conversationId, setConversationId] = useState(null);
+  const [conversationTitle, setConversationTitle] = useState(null);
 
 
   const createNewConversation = async (userID, titleArg) => {
@@ -26,7 +27,8 @@ export const ConversationProvider = ({ children }) => {
           },
         }
       );
-      setConversationId(response.data.conversation_id); // Update conversationId state
+      setConversationId(response.data.conversation_id); 
+      setConversationTitle(response.data.title); 
       return response;
 
     } catch (error) {
@@ -39,7 +41,7 @@ export const ConversationProvider = ({ children }) => {
 
 
   return (
-    <ConversationContext.Provider value={{ conversationId, setConversationId, createNewConversation }}>
+    <ConversationContext.Provider value={{ conversationId, conversationTitle, setConversationId, setConversationTitle, createNewConversation }}>
       {children}
     </ConversationContext.Provider>
   );

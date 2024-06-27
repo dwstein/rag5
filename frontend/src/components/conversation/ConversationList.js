@@ -8,7 +8,7 @@ import { useConversation } from '../../context/ConversationContext';
 
 const ConversationList = () => {
   const { user, loading, token } = useAuth();
-  const { setConversationId, createNewConversation } = useConversation();
+  const { setConversationId, setConversationTitle, createNewConversation } = useConversation();
   const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [error, setError] = useState(null);
@@ -99,8 +99,9 @@ const ConversationList = () => {
     );
   }
 
-  const handleConversationClick = (conversationId) => {
+  const handleConversationClick = (conversationId, conversationTitle) => {
     setConversationId(conversationId);
+    setConversationTitle(conversationTitle)
   };
 
 
@@ -116,7 +117,7 @@ const ConversationList = () => {
           conversation && conversation.id && ( // Defensive check
             <li 
               key={conversation.id} 
-              onClick={() => handleConversationClick(conversation.id)}
+              onClick={() => handleConversationClick(conversation.id, conversation.title)}
               className="conversation-item p-2 mb-2"
               style={{ 
                 cursor: 'pointer', 
