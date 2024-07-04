@@ -34,7 +34,7 @@ class MessageResponse(BaseModel):
     content: str
     conversation_id: UUID4
     role: str
-    user_id: UUID4
+    user_id: Optional[UUID4] = None
     created_at: datetime
     updated_at: datetime
 

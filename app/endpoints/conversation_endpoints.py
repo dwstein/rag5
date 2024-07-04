@@ -13,6 +13,7 @@ from fastapi import (
 )
 from datetime import datetime
 
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 import logging
@@ -203,13 +204,28 @@ async def create_message(
 
 @router.get("/conversations/{conversation_id}/messages/", response_model=List[MessageResponse])
 async def read_messages(conversation_id: UUID4, session: AsyncSession = Depends(get_async_session)):
-    conversation = await session.get(Conversation, conversation_id)
-    if not conversation:
-        raise HTTPException(status_code=404, detail="Conversation not found")
+    try:
+        print("conversation_id", conversation_id)
+        conversation = await session.get(Conversation, conversation_id)
+        if not conversation:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        
+        result = await session.execute(select(Message).where(Message.conversation_id == conversation_id))
+        messages = result.scalars().all()
+        
+        logger.info(f"Retrieved {len(messages)} messages for conversation {conversation_id}")
+        
+        return messages
+    except SQLAlchemyError as e:
+        logger.exception("Database error occured")
+        raise HTTPException(status_code=500, detail="Internal Server Error") from e
+    except HTTPException as e:
+        raise e
     
-    result = await session.execute(select(Message).where(Message.conversation_id == conversation_id))
-    messages = result.scalars().all()
-    return messages
+    except Exception as e:
+        logger.exception("An unexpected error occurred")
+     
+        raise HTTPException(status_code=500, detail=f"Internal Server Error") from e
 
 
 

@@ -13,8 +13,11 @@ export const ConversationProvider = ({ children }) => {
   const [conversationId, setConversationId] = useState(null);
   const [conversationTitle, setConversationTitle] = useState(null);
   const [conversations, setConversations] = useState([]);
+  const [messages, setMessages] = useState([]);
+
 
   const createNewConversation = async (userID, titleArg) => {
+    console.log("createNewConversation in ConversationContext:", userID, titleArg);
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
@@ -60,6 +63,19 @@ export const ConversationProvider = ({ children }) => {
 
 
 
+  const setLatestConversationAsDefault = (conversations) => {
+    if (conversations.length > 0) {
+      const latestConversation = conversations.reduce((prev, curr) => {
+        return prev.updated_at > curr.updated_at ? prev : curr;
+      });
+      setConversationId(latestConversation.id);
+      setConversationTitle(latestConversation.title);
+    }
+  };
+  
+
+
+
   return (
     <ConversationContext.Provider value={{ 
       conversationId, 
@@ -69,7 +85,10 @@ export const ConversationProvider = ({ children }) => {
       conversations,
       setConversations,
       createNewConversation, 
-      updateConversationTitle 
+      updateConversationTitle,
+      setLatestConversationAsDefault,
+      messages,
+      setMessages
       }}>
       {children}
     </ConversationContext.Provider>

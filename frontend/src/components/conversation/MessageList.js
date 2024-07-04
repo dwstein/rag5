@@ -6,11 +6,13 @@ import { useConversation } from '../../context/ConversationContext';
 import Message from './Message';
 
 const MessageList = () => {
-  const { conversationId } = useConversation();
-  const [messages, setMessages] = useState([]);
+  const { conversationId, messages, setMessages } = useConversation();
+  console.log('conversationId (MessageList):', conversationId);
+  // const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const fetchMessages = async () => {
+      console.log('Fetching messages for conversation: (MessageList)', conversationId);
       try {
         if (conversationId) {
           const response = await axios.get(`/convo/conversations/${conversationId}/messages/`);
@@ -20,6 +22,7 @@ const MessageList = () => {
         }
       } catch (error) {
         console.error('Error fetching messages:', error);
+        console.log('error: (MessageList)', error);
       }
     };
 

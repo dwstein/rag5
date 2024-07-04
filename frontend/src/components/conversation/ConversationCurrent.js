@@ -14,8 +14,16 @@ import ConvoTitle from './ConvoTitle';
 
 const ConversationCurrent = () => {
   const { conversationId } = useConversation();
- 
- 
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="box" style={{ height: '80vh', display: 'flex', flexDirection: 'column' }}>

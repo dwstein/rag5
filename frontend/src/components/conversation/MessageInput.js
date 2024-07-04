@@ -4,23 +4,25 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useConversation } from '../../context/ConversationContext';
 
-const MessageInput = ({ onMessageSent }) => {
+const MessageInput = () => {
   const [content, setContent] = useState('');
-  const { isLoggedIn, conversationId, createNewConversation } = useConversation();
+  const { conversationId, setMessages } = useConversation();
+
+  const handleNewMessage = (newMessage, llmResponse) => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: Date.now(), content: newMessage, role: 'user' },
+      { id: Date.now() + 1, content: llmResponse, role: 'assistant' },
+    ]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim()) return;
 
-    if (!conversationId) {
-      // If there's no existing conversation, create a new one
-      await createNewConversation();
-    }
-
-
     try {
       const response = await axios.post(`/convo/conversations/${conversationId}/messages/`, { content });
-      onMessageSent(content, response.data.response);
+      handleNewMessage(content, response.data.response);
       setContent('');
     } catch (error) {
       console.error('Error sending message:', error);
@@ -58,3 +60,4 @@ const MessageInput = ({ onMessageSent }) => {
 };
 
 export default MessageInput;
+

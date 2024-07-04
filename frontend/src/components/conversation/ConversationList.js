@@ -8,7 +8,13 @@ import { useConversation } from '../../context/ConversationContext';
 
 const ConversationList = () => {
   const { user, loading, token } = useAuth();
-  const { setConversationId, setConversationTitle, createNewConversation, conversations, setConversations } = useConversation();
+  const { setConversationId, 
+          setConversationTitle, 
+          createNewConversation, 
+          conversations, 
+          setConversations,
+          setLatestConversationAsDefault 
+        } = useConversation();
   // const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [error, setError] = useState(null);
@@ -28,6 +34,7 @@ const ConversationList = () => {
       console.log('Fetching conversations for user:', user.id);
       const response = await axios.get(`/convo/conversationslist/${user.id}`);
       setConversations(response.data);
+      setLatestConversationAsDefault(response.data); 
 
       if (response.data.length === 0) {
         const title = "Convo date: " + new Date().toLocaleString();
@@ -68,7 +75,8 @@ const ConversationList = () => {
       const response = await createNewConversation(user.id, title);
       console.log('newConversation: (fetchConversations)', response);
       console.log('newConversation.data.id: (fetchConversations)', response.data.id);
-      setConversations([response]);
+      setConversations([...conversations, response]);
+      setLatestConversationAsDefault([...conversations, response.data]);
       setConversationId(response.data.id);
       if (response) {
         await fetchConversations();
@@ -107,29 +115,29 @@ const ConversationList = () => {
 
 
   return (
-<div className="box">
-      <h2 className="title is-4">Conversations</h2>
-      <button className="button is-primary" onClick={handleNewConversation}>
-        New Conversation
-      </button>
-      <ul>
-        {conversations.map((conversation) => (
-          conversation && conversation.id && ( // Defensive check
-            <li 
-              key={conversation.id} 
-              onClick={() => handleConversationClick(conversation.id, conversation.title)}
-              className="conversation-item p-2 mb-2"
-              style={{ 
-                cursor: 'pointer', 
-                fontSize: '0.875rem' // Smaller font size
-              }}
-            >
-              {conversation.title || 'Untitled Conversation'}
-            </li>
-          )
-        ))}
-      </ul>
-    </div>
+    <div className="box">
+          <h2 className="title is-4">Conversations</h2>
+          <button className="button is-primary" onClick={handleNewConversation}>
+            New Conversation
+          </button>
+          <ul>
+            {conversations.map((conversation) => (
+              conversation && conversation.id && ( // Defensive check
+                <li 
+                  key={conversation.id} 
+                  onClick={() => handleConversationClick(conversation.id, conversation.title)}
+                  className="conversation-item p-2 mb-2"
+                  style={{ 
+                    cursor: 'pointer', 
+                    fontSize: '0.875rem' // Smaller font size
+                  }}
+                >
+                  {conversation.title || 'Untitled Conversation'}
+                </li>
+              )
+            ))}
+          </ul>
+        </div>
   );
 };
 

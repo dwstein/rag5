@@ -1,7 +1,7 @@
 ### RAG5 - Ollama, Docker, FastAPI, & Langchain
 
 This is a project for me to learn serveral thing at once
-- python
+- Python
 - Docker
 - FastAPI
 - Langchain
@@ -42,3 +42,7 @@ Create an API that can deployed on Docker that offers private use of Ollama mode
 - Conversation Tracker
 - Employ Langchain to use the LLMs
 - Employ some combination of databases to store documents and the vector files
+
+
+## Refactoring Tasks
+- No need for user id in messages at all.
