@@ -7,12 +7,12 @@ import Message from './Message';
 
 const MessageList = () => {
   const { conversationId, messages, setMessages } = useConversation();
-  console.log('conversationId (MessageList):', conversationId);
+  // console.log('conversationId (MessageList):', conversationId);
   // const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      console.log('Fetching messages for conversation: (MessageList)', conversationId);
+      // console.log('Fetching messages for conversation: (MessageList)', conversationId);
       try {
         if (conversationId) {
           const response = await axios.get(`/convo/conversations/${conversationId}/messages/`);

@@ -18,6 +18,7 @@ const ConversationList = () => {
   // const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [error, setError] = useState(null);
+  const [isCreatingConversation, setIsCreatingConversation] = useState(false);
 
   // console.log('loading (ConversationList):', loading);
   // console.log('user (ConversationList):', user);
@@ -27,7 +28,7 @@ const ConversationList = () => {
     if (user) {
       fetchConversations();
     }
-  }, [user, setConversationId]);
+  }, [user]);
   
   const fetchConversations = async () => {
     try {
@@ -43,15 +44,17 @@ const ConversationList = () => {
         //   'userId: (fetchConversations)', user.id, '\n',
   
         // )
-        
-        const newConversation = await createNewConversation(user.id, title, token);
-        console.log('newConversation if convo list = 0: (fetchConversations)', newConversation);
-        if (newConversation) {
-          
-          setConversations([newConversation]);
-          setConversationId(newConversation.data.id);
+        if (!isCreatingConversation) {
+          setIsCreatingConversation(true);
+          const newConversation = await createNewConversation(user.id, title, token);
+          console.log('fetchconversations/newConversation if convo list = 0: (fetchConversations)', newConversation);
+          console.log('fetchconversations/newConversation newConversation.data.id' + newConversation.data.id);
+          if (newConversation) {
+            setConversations([newConversation]);
+            setConversationId(newConversation.data.id);
+          }
+          setIsCreatingConversation(false);
         }
-        
       }
     } catch (error) {
       console.error('Error fetching conversations:', error);
@@ -73,8 +76,8 @@ const ConversationList = () => {
       // const token = token; // Replace with the actual token if needed
      
       const response = await createNewConversation(user.id, title);
-      console.log('newConversation: (fetchConversations)', response);
-      console.log('newConversation.data.id: (fetchConversations)', response.data.id);
+      console.log('newConversation: (fetchConversations/handleNewConversations in ConversationList.js)', response);
+      console.log('newConversation.data.id: (fetchConversations/handleNewConversations in ConversationList.js)', response.data.id);
       setConversations([...conversations, response]);
       setLatestConversationAsDefault([...conversations, response.data]);
       setConversationId(response.data.id);
