@@ -32,6 +32,7 @@ export const ConversationProvider = ({ children }) => {
       );
       setConversationId(response.data.conversation_id); 
       setConversationTitle(response.data.title); 
+      setConversations(prevConversations => [...prevConversations, response.data]);
       return response;
 
     } catch (error) {
