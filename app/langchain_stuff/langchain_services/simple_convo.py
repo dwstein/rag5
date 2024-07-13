@@ -1,6 +1,6 @@
 # app/langchain_stuff/lanchain_services/simple_convo.py
 
-
+# *** just for testing ***
 
 from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser

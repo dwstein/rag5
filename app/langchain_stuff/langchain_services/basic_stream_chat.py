@@ -1,5 +1,6 @@
-# app/langchain_stuff/langchain_services/basic_chat.py
+# app/langchain_stuff/langchain_services/basic_stream_chat.py
 
+# as of 7/0/24 - working on creating streaming chat. i.e. stream responses from the llm
 
 import os
 import sys
@@ -15,8 +16,6 @@ sys.path.append(app_dir)
 import asyncio
 from uuid import UUID
 
-from fastapi import Depends
-
 from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import (
@@ -26,16 +25,29 @@ from langchain_core.prompts import (
     SystemMessagePromptTemplate
 )
 
-from models.db import Message, get_async_session, get_async_session_endpoints
+from models.db import Message, get_async_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+
+
+
+
+
+
+
+
 
 
 # works on "app" containter which is the rag5 backend container 
 # *** used by conversation_endpoints.py ***
 llm = ChatOllama(model="phi3:3.8b", base_url="http://ollama:11434")
 
-async def chat_with_history(new_message, user_id, conversation_id, db: AsyncSession, message_history=None):
+
+
+
+
+
+async def chat_with_history_stream(new_message, user_id, conversation_id, db: AsyncSession, message_history=None):
     
      # Ensure conversation_id is a UUID
     if isinstance(conversation_id, str):
@@ -48,7 +60,6 @@ async def chat_with_history(new_message, user_id, conversation_id, db: AsyncSess
         messages = await db.execute(
             select(Message).where(Message.conversation_id == conversation_id).order_by(Message.created_at)
         )
-        
         message_history = [
             SystemMessagePromptTemplate.from_template("You are a helpful assistant.")
         ]
@@ -97,34 +108,30 @@ async def chat_with_history(new_message, user_id, conversation_id, db: AsyncSess
     return response, message_history
 
 
-"""
-
-*** READ ME ***
-
-this is for running from within the container itself to test
-the chat_with_history function
-
-docker exec -it <container_name_or_id> python /app/langchain_stuff/langchain_services/basic_chat.py
-docker exec -it df92a6b79fca python /app/langchain_stuff/langchain_services/basic_chat.py
-
-docker exec -it container_name /bin/bash
-docker exec -it rag5-container /bin/bash
-
-
-
-"""
-
-# from models.conversation_schemas import MessageCreate
+# this is for running from within the container itself to test
+# the chat_with_history function
 async def local_test_func():
     # Example user ID and conversation ID
     user_id = UUID("5f6239dc-9d1d-419f-b8d3-feeb4e8af16d")  # Replace with a valid user ID
     conversation_id = UUID("2211eb3a-ae84-4fa2-a58c-275508feaafc")  # Replace with a valid conversation ID
-    
-    async with get_async_session_endpoints() as db:
-    
-        new_message = "Hello, how are you?"
-        response, message_history = await chat_with_history(new_message, user_id, conversation_id, db)
-        print(response)
+
+    # Start the conversation
+    message_history = None
+    while True:
+        user_input = input("User: ")
+        if user_input.lower() == 'quit':
+            break
+
+        # Call the chat_with_history function
+        async for db in get_async_session():
+            response, message_history = await chat_with_history_stream(
+                new_message=user_input,
+                user_id=user_id,
+                conversation_id=conversation_id,
+                db=db,
+                message_history=message_history
+            )
+            print(f"Assistant: {response}")
 
 
 
