@@ -114,17 +114,28 @@ docker exec -it rag5-container /bin/bash
 
 """
 
-# from models.conversation_schemas import MessageCreate
 async def local_test_func():
     # Example user ID and conversation ID
     user_id = UUID("5f6239dc-9d1d-419f-b8d3-feeb4e8af16d")  # Replace with a valid user ID
     conversation_id = UUID("2211eb3a-ae84-4fa2-a58c-275508feaafc")  # Replace with a valid conversation ID
-    
-    async with get_async_session_endpoints() as db:
-    
-        new_message = "Hello, how are you?"
-        response, message_history = await chat_with_history(new_message, user_id, conversation_id, db)
-        print(response)
+
+    # Start the conversation
+    message_history = None
+    while True:
+        user_input = input("User: ")
+        if user_input.lower() == 'quit':
+            break
+
+        # Call the chat_with_history function
+        async for db in get_async_session():
+            response, message_history = await chat_with_history(
+                new_message=user_input,
+                user_id=user_id,
+                conversation_id=conversation_id,
+                db=db,
+                message_history=message_history
+            )
+            print(f"Assistant: {response}")
 
 
 
